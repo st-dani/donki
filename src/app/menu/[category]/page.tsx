@@ -1,229 +1,165 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 
-interface MenuItem {
-  name: string;
-  description: string;
-  price: string;
-  isPopular?: boolean;
-  isNew?: boolean;
-  allergens?: string[];
-}
-
-interface CategoryData {
-  title: string;
-  description: string;
-  items: MenuItem[];
-}
-
-const menuCategories: Record<string, CategoryData> = {
-  popular: {
-    title: '인기메뉴',
-    description: '고객들이 가장 사랑하는 돈키호테의 시그니처 메뉴',
+const menuData = {
+  bunsik: {
+    title: '분식',
+    description: '추억의 맛을 담은 길거리 분식 메뉴',
     items: [
       {
-        name: '트러플 포테이토',
-        description: '트러플 오일과 파마산 치즈가 어우러진 감자튀김',
-        price: '8,000원',
-        isPopular: true,
-        allergens: ['유제품']
-      },
-      {
-        name: '스모크 치킨 샌드위치',
-        description: '훈제 닭가슴살과 신선한 채소가 들어간 샌드위치',
-        price: '12,000원',
-        isPopular: true,
-        allergens: ['글루텐', '계란']
-      },
-      {
-        name: '시그니처 아메리카노',
-        description: '특별한 블렌딩으로 만든 프리미엄 커피',
+        name: '치즈 떡볶이',
+        description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남',
         price: '5,000원',
-        isPopular: true
+        image: '/images/menu/cheese-tteokbokki.jpg'
+      },
+      {
+        name: '라볶이',
+        description: '라면과 떡볶이의 환상적인 조합',
+        price: '6,000원',
+        image: '/images/menu/rabokki.jpg'
+      },
+      {
+        name: '튀김세트',
+        description: '고구마, 오징어, 김말이 튀김',
+        price: '5,000원',
+        image: '/images/menu/tempura-set.jpg'
+      }
+    ]
+  },
+  hotdog: {
+    title: '핫도그',
+    description: '특별한 소스와 토핑으로 만드는 프리미엄 핫도그',
+    items: [
+      {
+        name: '크리스피 핫도그',
+        description: '바삭한 튀김옷과 쫄깃한 소시지',
+        price: '4,000원',
+        image: '/images/menu/crispy-hotdog.jpg'
+      },
+      {
+        name: '치즈 핫도그',
+        description: '모짜렐라 치즈가 가득한 핫도그',
+        price: '4,500원',
+        image: '/images/menu/cheese-hotdog.jpg'
+      },
+      {
+        name: '감자 핫도그',
+        description: '감자가 듬뿍 들어간 핫도그',
+        price: '4,500원',
+        image: '/images/menu/potato-hotdog.jpg'
+      }
+    ]
+  },
+  taco: {
+    title: '타코',
+    description: '멕시칸과 한식의 퓨전 스타일 타코',
+    items: [
+      {
+        name: '불고기 타코',
+        description: '매콤달콤한 불고기가 들어간 퓨전 타코',
+        price: '6,000원',
+        image: '/images/menu/bulgogi-taco.jpg'
+      },
+      {
+        name: '닭갈비 타코',
+        description: '매콤한 닭갈비와 채소의 조화',
+        price: '6,000원',
+        image: '/images/menu/dakgalbi-taco.jpg'
+      },
+      {
+        name: '새우 타코',
+        description: '새우튀김과 특제 소스의 만남',
+        price: '6,500원',
+        image: '/images/menu/shrimp-taco.jpg'
       }
     ]
   },
   beverage: {
-    title: '음료',
-    description: '특별한 레시피로 만든 시그니처 음료',
+    title: '커피/음료',
+    description: '갓 내린 커피와 시그니처 음료',
     items: [
       {
-        name: '시그니처 아메리카노',
-        description: '특별한 블렌딩으로 만든 프리미엄 커피',
-        price: '5,000원'
+        name: '아메리카노',
+        description: '깊은 풍미의 블렌드 커피',
+        price: '3,000원',
+        image: '/images/menu/americano.jpg'
       },
       {
-        name: '바닐라 라떼',
-        description: '부드러운 바닐라 시럽이 들어간 라떼',
-        price: '6,000원',
-        allergens: ['유제품']
+        name: '카페라떼',
+        description: '부드러운 우유와 에스프레소',
+        price: '3,500원',
+        image: '/images/menu/cafe-latte.jpg'
       },
       {
-        name: '청귤 에이드',
-        description: '상큼한 청귤로 만든 시원한 에이드',
-        price: '6,000원',
-        isNew: true
-      }
-    ]
-  },
-  bakery: {
-    title: '베이커리',
-    description: '매일 아침 갓 구운 신선한 베이커리',
-    items: [
-      {
-        name: '크로아상',
-        description: '바삭하고 부드러운 프랑스식 크로아상',
+        name: '딸기 스무디',
+        description: '신선한 딸기로 만든 시원한 스무디',
         price: '4,500원',
-        allergens: ['글루텐', '유제품']
-      },
-      {
-        name: '초코 머핀',
-        description: '진한 초콜릿이 가득한 머핀',
-        price: '4,000원',
-        allergens: ['글루텐', '계란', '유제품']
-      },
-      {
-        name: '스콘',
-        description: '버터의 풍미가 가득한 영국식 스콘',
-        price: '4,000원',
-        isNew: true,
-        allergens: ['글루텐', '유제품']
-      }
-    ]
-  },
-  snack: {
-    title: '간식',
-    description: '출출할 때 즐기는 맛있는 간식',
-    items: [
-      {
-        name: '치즈 프레첼',
-        description: '체다치즈를 곁들인 독일식 프레첼',
-        price: '5,500원',
-        allergens: ['글루텐', '유제품']
-      },
-      {
-        name: '감자 웨지',
-        description: '허브와 스파이스를 곁들인 감자 웨지',
-        price: '6,000원',
-        isNew: true
-      },
-      {
-        name: '치킨 텐더',
-        description: '특제 소스와 함께 즐기는 치킨 텐더',
-        price: '7,000원',
-        allergens: ['글루텐']
-      }
-    ]
-  },
-  meal: {
-    title: '식사',
-    description: '든든한 한 끼를 책임지는 메인 메뉴',
-    items: [
-      {
-        name: '수제 버거',
-        description: '앵거스 비프 패티로 만든 프리미엄 버거',
-        price: '15,000원',
-        isPopular: true,
-        allergens: ['글루텐', '유제품']
-      },
-      {
-        name: '파스타',
-        description: '신선한 해산물이 들어간 크림 파스타',
-        price: '14,000원',
-        allergens: ['글루텐', '유제품', '해산물']
-      },
-      {
-        name: '리조또',
-        description: '트러플과 버섯으로 맛을 낸 리조또',
-        price: '13,000원',
-        isNew: true,
-        allergens: ['유제품']
+        image: '/images/menu/strawberry-smoothie.jpg'
       }
     ]
   }
 };
 
-export default function MenuCategory() {
+export default function CategoryPage() {
   const params = useParams();
   const category = params.category as string;
-  const categoryData = menuCategories[category];
+  const data = menuData[category as keyof typeof menuData];
 
-  if (!categoryData) {
-    return (
-      <div className="pt-32 min-h-screen">
-        <div className="container mx-auto px-4 py-20">
-          <h1 className="text-3xl font-bold mb-8">메뉴를 찾을 수 없습니다.</h1>
-          <Link href="/menu" className="text-primary hover:text-primary-dark">
-            메뉴 목록으로 돌아가기
-          </Link>
-        </div>
-      </div>
-    );
+  if (!data) {
+    return <div>카테고리를 찾을 수 없습니다.</div>;
   }
 
   return (
-    <div className="pt-32 min-h-screen">
-      <div className="container mx-auto px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-4">{categoryData.title}</h1>
-            <p className="text-xl text-gray-600 mb-12">{categoryData.description}</p>
+    <div className="pt-32">
+      <section className="py-20 bg-gradient-to-b from-yellow-50 to-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h1 className="text-4xl font-bold mb-8">{data.title}</h1>
+            <p className="text-xl text-gray-600 mb-12">{data.description}</p>
+          </motion.div>
+        </div>
+      </section>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {categoryData.items.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden"
-                >
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-xl font-bold">{item.name}</h3>
-                      {item.isPopular && (
-                        <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">
-                          인기
-                        </span>
-                      )}
-                      {item.isNew && (
-                        <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                          NEW
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-gray-600 mb-4">{item.description}</p>
-                    <div className="flex justify-between items-end">
-                      <p className="text-primary font-bold">{item.price}</p>
-                      {item.allergens && item.allergens.length > 0 && (
-                        <p className="text-gray-500 text-sm">
-                          알레르기: {item.allergens.join(', ')}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="mt-12 text-center">
-              <Link
-                href="/menu"
-                className="inline-block bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-full text-lg font-medium transition-colors"
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            {data.items.map((item, index) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow"
               >
-                전체 메뉴 보기
-              </Link>
-            </div>
+                <div className="relative h-48">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" />
+                  <h3 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white">
+                    {item.name}
+                  </h3>
+                </div>
+                <div className="p-6">
+                  <p className="text-gray-600 mb-2">{item.description}</p>
+                  <p className="text-primary font-bold">{item.price}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
     </div>
   );
 } 
