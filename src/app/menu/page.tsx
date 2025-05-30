@@ -43,19 +43,19 @@ export default function Menu() {
       name: '치즈 떡볶이',
       description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남',
       price: '5,000원',
-      image: '/images/menu/cheese-tteokbokki.jpg'
+      image: '/images/menu/cheese-tteokbokki.webp'
     },
     {
       name: '크리스피 핫도그',
       description: '바삭한 튀김옷과 쫄깃한 소시지의 환상 조합',
       price: '4,000원',
-      image: '/images/menu/crispy-hotdog.jpg'
+      image: '/images/menu/crispy-hotdog.webp'
     },
     {
       name: '불고기 타코',
       description: '매콤달콤한 불고기가 들어간 퓨전 타코',
       price: '6,000원',
-      image: '/images/menu/bulgogi-taco.jpg'
+      image: '/images/menu/bulgogi-taco.webp'
     }
   ];
 

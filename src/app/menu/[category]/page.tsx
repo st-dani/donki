@@ -13,19 +13,19 @@ const menuData = {
         name: '치즈 떡볶이',
         description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남',
         price: '5,000원',
-        image: '/images/menu/cheese-tteokbokki.jpg'
+        image: '/images/menu/cheese-tteokbokki.webp'
       },
       {
         name: '라볶이',
         description: '라면과 떡볶이의 환상적인 조합',
         price: '6,000원',
-        image: '/images/menu/rabokki.jpg'
+        image: '/images/menu/rabokki.webp'
       },
       {
         name: '튀김세트',
         description: '고구마, 오징어, 김말이 튀김',
         price: '5,000원',
-        image: '/images/menu/tempura-set.jpg'
+        image: '/images/menu/tempura-set.webp'
       }
     ]
   },
@@ -37,19 +37,19 @@ const menuData = {
         name: '크리스피 핫도그',
         description: '바삭한 튀김옷과 쫄깃한 소시지',
         price: '4,000원',
-        image: '/images/menu/crispy-hotdog.jpg'
+        image: '/images/menu/crispy-hotdog.webp'
       },
       {
         name: '치즈 핫도그',
         description: '모짜렐라 치즈가 가득한 핫도그',
         price: '4,500원',
-        image: '/images/menu/cheese-hotdog.jpg'
+        image: '/images/menu/cheese-hotdog.webp'
       },
       {
         name: '감자 핫도그',
         description: '감자가 듬뿍 들어간 핫도그',
         price: '4,500원',
-        image: '/images/menu/potato-hotdog.jpg'
+        image: '/images/menu/potato-hotdog.webp'
       }
     ]
   },
@@ -61,19 +61,19 @@ const menuData = {
         name: '불고기 타코',
         description: '매콤달콤한 불고기가 들어간 퓨전 타코',
         price: '6,000원',
-        image: '/images/menu/bulgogi-taco.jpg'
+        image: '/images/menu/bulgogi-taco.webp'
       },
       {
         name: '닭갈비 타코',
         description: '매콤한 닭갈비와 채소의 조화',
         price: '6,000원',
-        image: '/images/menu/dakgalbi-taco.jpg'
+        image: '/images/menu/dakgalbi-taco.webp'
       },
       {
         name: '새우 타코',
         description: '새우튀김과 특제 소스의 만남',
         price: '6,500원',
-        image: '/images/menu/shrimp-taco.jpg'
+        image: '/images/menu/shrimp-taco.webp'
       }
     ]
   },
@@ -85,19 +85,19 @@ const menuData = {
         name: '아메리카노',
         description: '깊은 풍미의 블렌드 커피',
         price: '3,000원',
-        image: '/images/menu/americano.jpg'
+        image: '/images/menu/americano.webp'
       },
       {
         name: '카페라떼',
         description: '부드러운 우유와 에스프레소',
         price: '3,500원',
-        image: '/images/menu/cafe-latte.jpg'
+        image: '/images/menu/cafe-latte.webp'
       },
       {
         name: '딸기 스무디',
         description: '신선한 딸기로 만든 시원한 스무디',
         price: '4,500원',
-        image: '/images/menu/strawberry-smoothie.jpg'
+        image: '/images/menu/strawberry-smoothie.webp'
       }
     ]
   }
