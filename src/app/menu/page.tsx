@@ -9,27 +9,32 @@ export default function Menu() {
     {
       title: '인기메뉴',
       description: '고객들이 가장 사랑하는 돈키호테의 시그니처 메뉴',
-      href: '/menu/popular'
+      href: '/menu/popular',
+      image: '/images/menu/popular-category.jpg'
     },
     {
       title: '음료',
       description: '특별한 레시피로 만든 시그니처 음료',
-      href: '/menu/beverage'
+      href: '/menu/beverage',
+      image: '/images/menu/beverage-category.jpg'
     },
     {
       title: '베이커리',
       description: '매일 아침 갓 구운 신선한 베이커리',
-      href: '/menu/bakery'
+      href: '/menu/bakery',
+      image: '/images/menu/bakery-category.jpg'
     },
     {
       title: '간식',
       description: '출출할 때 즐기는 맛있는 간식',
-      href: '/menu/snack'
+      href: '/menu/snack',
+      image: '/images/menu/snack-category.jpg'
     },
     {
       title: '식사',
       description: '든든한 한 끼를 책임지는 메인 메뉴',
-      href: '/menu/meal'
+      href: '/menu/meal',
+      image: '/images/menu/meal-category.jpg'
     }
   ];
 
@@ -37,17 +42,20 @@ export default function Menu() {
     {
       name: '트러플 포테이토',
       description: '트러플 오일과 파마산 치즈가 어우러진 감자튀김',
-      price: '8,000원'
+      price: '8,000원',
+      image: '/images/menu/truffle-potato.jpg'
     },
     {
       name: '스모크 치킨 샌드위치',
       description: '훈제 닭가슴살과 신선한 채소가 들어간 샌드위치',
-      price: '12,000원'
+      price: '12,000원',
+      image: '/images/menu/chicken-sandwich.jpg'
     },
     {
       name: '시그니처 아메리카노',
       description: '특별한 블렌딩으로 만든 프리미엄 커피',
-      price: '5,000원'
+      price: '5,000원',
+      image: '/images/menu/signature-americano.jpg'
     }
   ];
 
@@ -81,10 +89,16 @@ export default function Menu() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white rounded-xl shadow-lg overflow-hidden"
+                className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow"
               >
-                <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/40">
-                  <div className="absolute inset-0 bg-gray-900 bg-opacity-50" />
+                <div className="relative h-48">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" />
                   <h3 className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
                     {category.title}
                   </h3>
@@ -115,10 +129,16 @@ export default function Menu() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white rounded-xl shadow-lg overflow-hidden"
+                className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow"
               >
-                <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/40">
-                  <div className="absolute inset-0 bg-gray-900 bg-opacity-50" />
+                <div className="relative h-48">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" />
                   <h3 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white">
                     {item.name}
                   </h3>
