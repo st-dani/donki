@@ -10,31 +10,31 @@ export default function Menu() {
       title: '인기메뉴',
       description: '고객들이 가장 사랑하는 돈키호테의 시그니처 메뉴',
       href: '/menu/popular',
-      image: '/images/menu/popular-category.jpg'
+      image: '/images/menu/popular-category.webp'
     },
     {
       title: '분식',
       description: '추억의 맛을 담은 길거리 분식 메뉴',
       href: '/menu/bunsik',
-      image: '/images/menu/bunsik-category.jpg'
+      image: '/images/menu/bunsik-category.webp'
     },
     {
       title: '핫도그',
       description: '특별한 소스와 토핑으로 만드는 프리미엄 핫도그',
       href: '/menu/hotdog',
-      image: '/images/menu/hotdog-category.jpg'
+      image: '/images/menu/hotdog-category.webp'
     },
     {
       title: '타코',
       description: '멕시칸과 한식의 퓨전 스타일 타코',
       href: '/menu/taco',
-      image: '/images/menu/taco-category.jpg'
+      image: '/images/menu/taco-category.webp'
     },
     {
       title: '커피/음료',
       description: '갓 내린 커피와 시그니처 음료',
       href: '/menu/beverage',
-      image: '/images/menu/beverage-category.jpg'
+      image: '/images/menu/beverage-category.webp'
     }
   ];
 

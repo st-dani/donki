@@ -55,6 +55,13 @@ async function processImage(buffer, filename) {
 
 // Images to download with parameters for better quality
 const images = {
+  // 카테고리 이미지
+  'popular-category': 'https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?w=1920&h=1080&fit=crop&q=85',
+  'bunsik-category': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=1920&h=1080&fit=crop&q=85',
+  'hotdog-category': 'https://images.unsplash.com/photo-1612392062631-94dd858cba88?w=1920&h=1080&fit=crop&q=85',
+  'taco-category': 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=1920&h=1080&fit=crop&q=85',
+  'beverage-category': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=1920&h=1080&fit=crop&q=85',
+  
   // 분식 (Korean Street Food)
   'cheese-tteokbokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=1920&h=1080&fit=crop&q=85',
   'rabokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=1920&h=1080&fit=crop&q=85',
