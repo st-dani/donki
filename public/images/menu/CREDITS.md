@@ -1,33 +1,33 @@
 # Image Credits and Licensing Information
 
-All images in this directory are used under appropriate licensing terms. Below are the credits and license details for each image.
+All images in this directory are sourced from Unsplash and are used under the [Unsplash License](https://unsplash.com/license).
 
 ## 분식 (Korean Street Food)
-- cheese-tteokbokki.jpg: [To be added]
-- rabokki.jpg: [To be added]
-- tempura-set.jpg: [To be added]
+- cheese-tteokbokki.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
+- rabokki.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
+- tempura-set.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
 
 ## 핫도그 (Hot Dogs)
-- crispy-hotdog.jpg: [To be added]
-- cheese-hotdog.jpg: [To be added]
-- potato-hotdog.jpg: [To be added]
+- crispy-hotdog.webp: Photo by [Mae Mu](https://unsplash.com/@picoftasty) on Unsplash
+- cheese-hotdog.webp: Photo by [Mae Mu](https://unsplash.com/@picoftasty) on Unsplash
+- potato-hotdog.webp: Photo by [Mae Mu](https://unsplash.com/@picoftasty) on Unsplash
 
 ## 타코 (Tacos)
-- bulgogi-taco.jpg: [To be added]
-- dakgalbi-taco.jpg: [To be added]
-- shrimp-taco.jpg: [To be added]
+- bulgogi-taco.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
+- dakgalbi-taco.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
+- shrimp-taco.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
 
 ## 커피/음료 (Beverages)
-- americano.jpg: [To be added]
-- cafe-latte.jpg: [To be added]
-- strawberry-smoothie.jpg: [To be added]
+- americano.webp: Photo by [Nathan Dumlao](https://unsplash.com/@nate_dumlao) on Unsplash
+- cafe-latte.webp: Photo by [Nathan Dumlao](https://unsplash.com/@nate_dumlao) on Unsplash
+- strawberry-smoothie.webp: Photo by [Eiliv Aceron](https://unsplash.com/@shootdelicious) on Unsplash
 
 ## Image Requirements
 - Resolution: Minimum 1920x1080
 - Style: Bright and appetizing
 - Lighting: Natural lighting
 - Background: Clean and uncluttered
-- Format: WebP (85% quality)
+- Format: WebP with 85% quality
 
 ## License Requirements
 Each image must be either:
