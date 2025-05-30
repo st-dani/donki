@@ -4,6 +4,15 @@ import Link from 'next/link';
 import Logo from './Logo';
 import MobileMenu from './MobileMenu';
 
+const BLOG_CATEGORIES = [
+  '기업행사',
+  '연예인',
+  '공공기관',
+  '학교',
+  '유치원',
+  '행사축제'
+] as const;
+
 export default function Navigation() {
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
@@ -24,9 +33,16 @@ export default function Navigation() {
             <div className="relative group">
               <Link href="/blog" className="hover:text-primary">블로그</Link>
               <div className="absolute hidden group-hover:block w-48 bg-white shadow-lg rounded-lg mt-2 py-2">
-                <Link href="/blog/reference" className="block px-4 py-2 hover:bg-gray-50">레퍼런스</Link>
-                <Link href="/blog/insight" className="block px-4 py-2 hover:bg-gray-50">인사이트</Link>
-                <Link href="/blog/newsroom" className="block px-4 py-2 hover:bg-gray-50">뉴스룸</Link>
+                <Link href="/blog" className="block px-4 py-2 hover:bg-gray-50">전체</Link>
+                {BLOG_CATEGORIES.map((category) => (
+                  <Link 
+                    key={category}
+                    href={`/blog?category=${category}`} 
+                    className="block px-4 py-2 hover:bg-gray-50"
+                  >
+                    {category}
+                  </Link>
+                ))}
               </div>
             </div>
             <div className="relative group">
