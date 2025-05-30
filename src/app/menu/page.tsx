@@ -13,51 +13,122 @@ export default function Menu() {
       image: '/images/menu/popular-category.jpg'
     },
     {
-      title: '음료',
-      description: '특별한 레시피로 만든 시그니처 음료',
+      title: '분식',
+      description: '추억의 맛을 담은 길거리 분식 메뉴',
+      href: '/menu/bunsik',
+      image: '/images/menu/bunsik-category.jpg'
+    },
+    {
+      title: '핫도그',
+      description: '특별한 소스와 토핑으로 만드는 프리미엄 핫도그',
+      href: '/menu/hotdog',
+      image: '/images/menu/hotdog-category.jpg'
+    },
+    {
+      title: '타코',
+      description: '멕시칸과 한식의 퓨전 스타일 타코',
+      href: '/menu/taco',
+      image: '/images/menu/taco-category.jpg'
+    },
+    {
+      title: '커피/음료',
+      description: '갓 내린 커피와 시그니처 음료',
       href: '/menu/beverage',
       image: '/images/menu/beverage-category.jpg'
-    },
-    {
-      title: '베이커리',
-      description: '매일 아침 갓 구운 신선한 베이커리',
-      href: '/menu/bakery',
-      image: '/images/menu/bakery-category.jpg'
-    },
-    {
-      title: '간식',
-      description: '출출할 때 즐기는 맛있는 간식',
-      href: '/menu/snack',
-      image: '/images/menu/snack-category.jpg'
-    },
-    {
-      title: '식사',
-      description: '든든한 한 끼를 책임지는 메인 메뉴',
-      href: '/menu/meal',
-      image: '/images/menu/meal-category.jpg'
     }
   ];
 
   const popularItems = [
     {
-      name: '트러플 포테이토',
-      description: '트러플 오일과 파마산 치즈가 어우러진 감자튀김',
-      price: '8,000원',
-      image: '/images/menu/truffle-potato.jpg'
-    },
-    {
-      name: '스모크 치킨 샌드위치',
-      description: '훈제 닭가슴살과 신선한 채소가 들어간 샌드위치',
-      price: '12,000원',
-      image: '/images/menu/chicken-sandwich.jpg'
-    },
-    {
-      name: '시그니처 아메리카노',
-      description: '특별한 블렌딩으로 만든 프리미엄 커피',
+      name: '치즈 떡볶이',
+      description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남',
       price: '5,000원',
-      image: '/images/menu/signature-americano.jpg'
+      image: '/images/menu/cheese-tteokbokki.jpg'
+    },
+    {
+      name: '크리스피 핫도그',
+      description: '바삭한 튀김옷과 쫄깃한 소시지의 환상 조합',
+      price: '4,000원',
+      image: '/images/menu/crispy-hotdog.jpg'
+    },
+    {
+      name: '불고기 타코',
+      description: '매콤달콤한 불고기가 들어간 퓨전 타코',
+      price: '6,000원',
+      image: '/images/menu/bulgogi-taco.jpg'
     }
   ];
+
+  const fullMenu = {
+    bunsik: [
+      {
+        name: '치즈 떡볶이',
+        price: '5,000원',
+        description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남'
+      },
+      {
+        name: '라볶이',
+        price: '6,000원',
+        description: '라면과 떡볶이의 환상적인 조합'
+      },
+      {
+        name: '튀김세트',
+        price: '5,000원',
+        description: '고구마, 오징어, 김말이 튀김'
+      }
+    ],
+    hotdog: [
+      {
+        name: '크리스피 핫도그',
+        price: '4,000원',
+        description: '바삭한 튀김옷과 쫄깃한 소시지'
+      },
+      {
+        name: '치즈 핫도그',
+        price: '4,500원',
+        description: '모짜렐라 치즈가 가득한 핫도그'
+      },
+      {
+        name: '감자 핫도그',
+        price: '4,500원',
+        description: '감자가 듬뿍 들어간 핫도그'
+      }
+    ],
+    taco: [
+      {
+        name: '불고기 타코',
+        price: '6,000원',
+        description: '매콤달콤한 불고기가 들어간 퓨전 타코'
+      },
+      {
+        name: '닭갈비 타코',
+        price: '6,000원',
+        description: '매콤한 닭갈비와 채소의 조화'
+      },
+      {
+        name: '새우 타코',
+        price: '6,500원',
+        description: '새우튀김과 특제 소스의 만남'
+      }
+    ],
+    beverage: [
+      {
+        name: '아메리카노',
+        price: '3,000원',
+        description: '깊은 풍미의 블렌드 커피'
+      },
+      {
+        name: '카페라떼',
+        price: '3,500원',
+        description: '부드러운 우유와 에스프레소'
+      },
+      {
+        name: '딸기 스무디',
+        price: '4,500원',
+        description: '신선한 딸기로 만든 시원한 스무디'
+      }
+    ]
+  };
 
   return (
     <div className="pt-32">
