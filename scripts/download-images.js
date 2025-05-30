@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const sharp = require('sharp');
+const fetch = require('node-fetch');
 
 // Configuration
 const IMAGE_DIR = path.join(process.cwd(), 'public', 'images', 'menu');
@@ -16,20 +17,12 @@ if (!fs.existsSync(IMAGE_DIR)) {
 }
 
 // Function to download image
-function downloadImage(url) {
-  return new Promise((resolve, reject) => {
-    https.get(url, (response) => {
-      if (response.statusCode !== 200) {
-        reject(new Error(`Failed to download: ${response.statusCode}`));
-        return;
-      }
-
-      const chunks = [];
-      response.on('data', (chunk) => chunks.push(chunk));
-      response.on('end', () => resolve(Buffer.concat(chunks)));
-      response.on('error', reject);
-    }).on('error', reject);
-  });
+async function downloadImage(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to download: ${response.status}`);
+  }
+  return response.buffer();
 }
 
 // Function to process image
@@ -60,27 +53,27 @@ async function processImage(buffer, filename) {
   }
 }
 
-// Images to download
+// Images to download with parameters for better quality
 const images = {
   // 분식 (Korean Street Food)
-  'cheese-tteokbokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377',
-  'rabokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377',
-  'tempura-set': 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327',
+  'cheese-tteokbokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=1920&h=1080&fit=crop&q=85',
+  'rabokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=1920&h=1080&fit=crop&q=85',
+  'tempura-set': 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=1920&h=1080&fit=crop&q=85',
   
   // 핫도그 (Hot Dogs)
-  'crispy-hotdog': 'https://images.unsplash.com/photo-1612392062631-94dd858cba88',
-  'cheese-hotdog': 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a',
-  'potato-hotdog': 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a',
+  'crispy-hotdog': 'https://images.unsplash.com/photo-1612392062631-94dd858cba88?w=1920&h=1080&fit=crop&q=85',
+  'cheese-hotdog': 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?w=1920&h=1080&fit=crop&q=85',
+  'potato-hotdog': 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?w=1920&h=1080&fit=crop&q=85',
   
   // 타코 (Tacos)
-  'bulgogi-taco': 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b',
-  'dakgalbi-taco': 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47',
-  'shrimp-taco': 'https://images.unsplash.com/photo-1611250188496-e966043a0629',
+  'bulgogi-taco': 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=1920&h=1080&fit=crop&q=85',
+  'dakgalbi-taco': 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=1920&h=1080&fit=crop&q=85',
+  'shrimp-taco': 'https://images.unsplash.com/photo-1611250188496-e966043a0629?w=1920&h=1080&fit=crop&q=85',
   
   // 커피/음료 (Beverages)
-  'americano': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd',
-  'cafe-latte': 'https://images.unsplash.com/photo-1541167760496-1628856ab772',
-  'strawberry-smoothie': 'https://images.unsplash.com/photo-1553530666-ba11a7da3888'
+  'americano': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=1920&h=1080&fit=crop&q=85',
+  'cafe-latte': 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=1920&h=1080&fit=crop&q=85',
+  'strawberry-smoothie': 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=1920&h=1080&fit=crop&q=85'
 };
 
 // Main function
