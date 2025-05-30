@@ -63,7 +63,7 @@ async function processImage(buffer, filename) {
 // Images to download
 const images = {
   // 분식 (Korean Street Food)
-  'cheese-tteokbokki': 'https://images.unsplash.com/photo-1563255617-5ccb05de4496',
+  'cheese-tteokbokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377',
   'rabokki': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377',
   'tempura-set': 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327',
   
