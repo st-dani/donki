@@ -69,7 +69,81 @@ const menuCategories: Record<string, CategoryData> = {
       }
     ]
   },
-  // 다른 카테고리 데이터...
+  bakery: {
+    title: '베이커리',
+    description: '매일 아침 갓 구운 신선한 베이커리',
+    items: [
+      {
+        name: '크로아상',
+        description: '바삭하고 부드러운 프랑스식 크로아상',
+        price: '4,500원',
+        allergens: ['글루텐', '유제품']
+      },
+      {
+        name: '초코 머핀',
+        description: '진한 초콜릿이 가득한 머핀',
+        price: '4,000원',
+        allergens: ['글루텐', '계란', '유제품']
+      },
+      {
+        name: '스콘',
+        description: '버터의 풍미가 가득한 영국식 스콘',
+        price: '4,000원',
+        isNew: true,
+        allergens: ['글루텐', '유제품']
+      }
+    ]
+  },
+  snack: {
+    title: '간식',
+    description: '출출할 때 즐기는 맛있는 간식',
+    items: [
+      {
+        name: '치즈 프레첼',
+        description: '체다치즈를 곁들인 독일식 프레첼',
+        price: '5,500원',
+        allergens: ['글루텐', '유제품']
+      },
+      {
+        name: '감자 웨지',
+        description: '허브와 스파이스를 곁들인 감자 웨지',
+        price: '6,000원',
+        isNew: true
+      },
+      {
+        name: '치킨 텐더',
+        description: '특제 소스와 함께 즐기는 치킨 텐더',
+        price: '7,000원',
+        allergens: ['글루텐']
+      }
+    ]
+  },
+  meal: {
+    title: '식사',
+    description: '든든한 한 끼를 책임지는 메인 메뉴',
+    items: [
+      {
+        name: '수제 버거',
+        description: '앵거스 비프 패티로 만든 프리미엄 버거',
+        price: '15,000원',
+        isPopular: true,
+        allergens: ['글루텐', '유제품']
+      },
+      {
+        name: '파스타',
+        description: '신선한 해산물이 들어간 크림 파스타',
+        price: '14,000원',
+        allergens: ['글루텐', '유제품', '해산물']
+      },
+      {
+        name: '리조또',
+        description: '트러플과 버섯으로 맛을 낸 리조또',
+        price: '13,000원',
+        isNew: true,
+        allergens: ['유제품']
+      }
+    ]
+  }
 };
 
 export default function MenuCategory() {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
@@ -16,6 +16,16 @@ declare global {
     Kakao: any;
   }
 }
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#E6A600' },
+    { media: '(prefers-color-scheme: dark)', color: '#E6A600' }
+  ],
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://donquixote.com'),
@@ -59,13 +69,7 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1
     }
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: '#E6A600'
+  }
 };
 
 export default function RootLayout({

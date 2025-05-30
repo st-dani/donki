@@ -147,15 +147,27 @@ export default function Estimate() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">선택해주세요</option>
-                    <option value="welfare">복지 마케팅</option>
-                    <option value="partnership">파트너십 마케팅</option>
-                    <option value="brand">브랜드 프로모션</option>
-                    <option value="fnb">F&B 팝업</option>
+                    <option value="corporate">기업행사</option>
+                    <option value="catering">각종케이터링</option>
+                    <option value="religious">종교행사</option>
+                    <option value="celebrity">연예인서포트</option>
+                    <option value="university">대학축제</option>
+                    <option value="military">군부대</option>
+                    <option value="filming">촬영장</option>
+                    <option value="sports">체육대회</option>
+                    <option value="snack">간식차</option>
+                    <option value="coffee">커피차</option>
+                    <option value="public">공공기관</option>
+                    <option value="school">학교</option>
+                    <option value="kindergarten">유치원</option>
+                    <option value="festival">행사축제</option>
+                    <option value="event">이벤트</option>
+                    <option value="other">기타</option>
                   </select>
                 </div>
                 <div>
                   <label htmlFor="budget" className="block text-gray-700 mb-2">
-                    예상 예산
+                    예상 비용
                   </label>
                   <select
                     id="budget"
@@ -163,10 +175,12 @@ export default function Estimate() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">선택해주세요</option>
-                    <option value="1">1,000만원 미만</option>
-                    <option value="2">1,000만원 ~ 3,000만원</option>
-                    <option value="3">3,000만원 ~ 5,000만원</option>
-                    <option value="4">5,000만원 이상</option>
+                    <option value="1">50~100만원</option>
+                    <option value="2">100~200만원</option>
+                    <option value="3">200~300만원</option>
+                    <option value="4">300~500만원</option>
+                    <option value="5">500~1000만원</option>
+                    <option value="6">1000만원 이상</option>
                   </select>
                 </div>
                 <div>
