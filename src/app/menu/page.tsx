@@ -8,31 +8,31 @@ export default function Menu() {
   const categories = [
     {
       title: '인기메뉴',
-      description: '고객들이 가장 사랑하는 돈키호테의 시그니처 메뉴',
+      description: '✨ 입소문 타고 대박난 돈키호테 스타메뉴! 안 먹으면 손해각✌️',
       href: '/menu/popular',
       image: '/images/menu/popular-category.webp'
     },
     {
       title: '분식',
-      description: '추억의 맛을 담은 길거리 분식 메뉴',
+      description: '🔥 추억의 맛을 현대적으로 재해석! 이 맛에 울컥~😋',
       href: '/menu/bunsik',
       image: '/images/menu/bunsik-category.webp'
     },
     {
       title: '핫도그',
-      description: '특별한 소스와 토핑으로 만드는 프리미엄 핫도그',
+      description: '🌭 겉바속촉 신세계! 한입에 퐁당 빠지는 맛의 마법✨',
       href: '/menu/hotdog',
       image: '/images/menu/hotdog-category.webp'
     },
     {
       title: '타코',
-      description: '멕시칸과 한식의 퓨전 스타일 타코',
+      description: '🌮 멕시코와 한국의 맛있는 케미! 이런 맛은 처음이지?😎',
       href: '/menu/taco',
       image: '/images/menu/taco-category.webp'
     },
     {
       title: '커피/음료',
-      description: '갓 내린 커피와 시그니처 음료',
+      description: '☕️ 달콤 쌉싸름 힐링 타임! 분위기 깡패 음료들 총집합~🎵',
       href: '/menu/beverage',
       image: '/images/menu/beverage-category.webp'
     }
@@ -41,19 +41,19 @@ export default function Menu() {
   const popularItems = [
     {
       name: '치즈 떡볶이',
-      description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남',
+      description: '🧀 쭉쭉 늘어나는 치즈에 빠진 떡볶이! 달콤매콤 소스랑 찰떡궁합 💕',
       price: '5,000원',
       image: '/images/menu/cheese-tteokbokki.webp'
     },
     {
       name: '크리스피 핫도그',
-      description: '바삭한 튀김옷과 쫄깃한 소시지의 환상 조합',
+      description: '✨ 바삭함이 9000% 터지는 겉바속촉의 신세계! 한번 먹으면 멈출 수 없어요 🌭',
       price: '4,000원',
       image: '/images/menu/crispy-hotdog.webp'
     },
     {
       name: '불고기 타코',
-      description: '매콤달콤한 불고기가 들어간 퓨전 타코',
+      description: '🔥 멕시코가 들썩들썩! 불맛 가득 불고기와 타코의 찐 케미 폭발! 🌮',
       price: '6,000원',
       image: '/images/menu/bulgogi-taco.webp'
     }
@@ -64,68 +64,68 @@ export default function Menu() {
       {
         name: '치즈 떡볶이',
         price: '5,000원',
-        description: '쫄깃한 떡과 특제 매콤달콤 소스의 만남'
+        description: '🧀 쭉쭉 늘어나는 치즈에 빠진 떡볶이! 달콤매콤 소스랑 찰떡궁합 💕'
       },
       {
         name: '라볶이',
         price: '6,000원',
-        description: '라면과 떡볶이의 환상적인 조합'
+        description: '🍜 라면과 떡볶이의 환상 듀엣! 이 조합 실화냐? 🤤'
       },
       {
         name: '튀김세트',
         price: '5,000원',
-        description: '고구마, 오징어, 김말이 튀김'
+        description: '🍤 바삭바삭 황금빛 튀김 3종 세트! 한입에 행복이 가득~ 😋'
       }
     ],
     hotdog: [
       {
         name: '크리스피 핫도그',
         price: '4,000원',
-        description: '바삭한 튀김옷과 쫄깃한 소시지'
+        description: '✨ 바삭함이 9000% 터지는 겉바속촉의 신세계! 한번 먹으면 멈출 수 없어요 🌭'
       },
       {
         name: '치즈 핫도그',
         price: '4,500원',
-        description: '모짜렐라 치즈가 가득한 핫도그'
+        description: '🧀 치즈가 폭포수처럼 쏟아지는 핫도그! 치즈 매니아 모여라~ 💛'
       },
       {
         name: '감자 핫도그',
         price: '4,500원',
-        description: '감자가 듬뿍 들어간 핫도그'
+        description: '🥔 감자 듬뿍! 바삭함 듬뿍! 행복 듬뿍! 3단 콤보 완성 ⭐️'
       }
     ],
     taco: [
       {
         name: '불고기 타코',
         price: '6,000원',
-        description: '매콤달콤한 불고기가 들어간 퓨전 타코'
+        description: '🔥 멕시코가 들썩들썩! 불맛 가득 불고기와 타코의 찐 케미 폭발! 🌮'
       },
       {
         name: '닭갈비 타코',
         price: '6,000원',
-        description: '매콤한 닭갈비와 채소의 조화'
+        description: '🐔 춘천이 인정한 매콤달콤 닭갈비의 반전 매력! 이게 바로 K-타코 🎵'
       },
       {
         name: '새우 타코',
         price: '6,500원',
-        description: '새우튀김과 특제 소스의 만남'
+        description: '🦐 통통한 새우와 특제소스의 환상적인 만남! 새우 맛의 품격이 다르다! ✨'
       }
     ],
     beverage: [
       {
         name: '아메리카노',
         price: '3,000원',
-        description: '깊은 풍미의 블렌드 커피'
+        description: '☕️ 깊고 진한 풍미가 가득! 하루 종일 당신과 함께할 완벽한 친구 💫'
       },
       {
         name: '카페라떼',
         price: '3,500원',
-        description: '부드러운 우유와 에스프레소'
+        description: '🥛 부드러운 우유 거품 위에서 춤추는 에스프레소! 달콤 쌉싸름한 행복 한잔 ✨'
       },
       {
         name: '딸기 스무디',
         price: '4,500원',
-        description: '신선한 딸기로 만든 시원한 스무디'
+        description: '🍓 새콤달콤 상큼 폭발! 진짜 딸기로 만든 리얼 스무디의 정석 💝'
       }
     ]
   };
@@ -141,10 +141,10 @@ export default function Menu() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="text-4xl font-bold mb-8">메뉴 소개</h1>
+            <h1 className="text-4xl font-bold mb-8">메뉴 소개 ✨</h1>
             <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-              신선한 재료와 특별한 레시피로 만든<br />
-              돈키호테 푸드트럭의 다양한 메뉴를 만나보세요.
+              신선한 재료들의 즐거운 파티! 🎉<br />
+              돈키호테만의 특별한 레시피로 탄생한 맛있는 이야기 🌟
             </p>
           </motion.div>
         </div>
