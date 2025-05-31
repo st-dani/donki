@@ -11,103 +11,93 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-900 text-white py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-4 gap-8">
           {/* 회사 정보 */}
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold text-white mb-4">돈키호테 푸드트럭</h3>
-            <p className="mb-4">고객의 일상에 특별한 에너지를 불어넣는 프리미엄 푸드트럭 서비스</p>
-            <div className="space-y-2 text-sm">
-              <p>사업자등록번호: 123-45-67890</p>
-              <p>대표: 홍길동</p>
-              <p>주소: 서울특별시 강남구 테헤란로 123</p>
-              <p>이메일: contact@donquixote.com</p>
-              <p>전화: 02-1234-5678</p>
-            </div>
+          <div className="col-span-2">
+            <h3 className="text-xl font-bold mb-4">돈키호테</h3>
+            <ul className="space-y-2 text-gray-300">
+              <li>대표: 김병현</li>
+              <li>사업자등록번호: 587-44-00535</li>
+              <li>주소: 경기도 수원시 권선구 서둔로 166</li>
+              <li>
+                전화:{' '}
+                <a href="tel:010-4680-5447" className="hover:text-primary">
+                  010-4680-5447
+                </a>
+              </li>
+              <li>
+                이메일:{' '}
+                <a href="mailto:bgim6062@gmail.com" className="hover:text-primary">
+                  bgim6062@gmail.com
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* 서비스 */}
+          {/* 빠른 링크 */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">서비스</h4>
+            <h3 className="text-xl font-bold mb-4">바로가기</h3>
             <ul className="space-y-2">
               <li>
-                <Link 
-                  href="/service" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('service')}
-                >
-                  서비스 소개
+                <Link href="/introduction" className="text-gray-300 hover:text-primary">
+                  회사 소개
                 </Link>
               </li>
               <li>
-                <Link 
-                  href="/estimate" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('estimate')}
-                >
+                <Link href="/menu" className="text-gray-300 hover:text-primary">
+                  메뉴 안내
+                </Link>
+              </li>
+              <li>
+                <Link href="/service" className="text-gray-300 hover:text-primary">
+                  서비스 안내
+                </Link>
+              </li>
+              <li>
+                <Link href="/estimate" className="text-gray-300 hover:text-primary">
                   견적 문의
                 </Link>
               </li>
               <li>
-                <Link 
-                  href="/portfolio" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('portfolio')}
-                >
-                  포트폴리오
+                <Link href="/blog" className="text-gray-300 hover:text-primary">
+                  블로그
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* 고객지원 */}
+          {/* 소셜 및 문의 */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">고객지원</h4>
+            <h3 className="text-xl font-bold mb-4">문의하기</h3>
             <ul className="space-y-2">
               <li>
-                <Link 
-                  href="/faq" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('faq')}
+                <a
+                  href="http://pf.kakao.com/_xfSERG/chat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-primary"
                 >
-                  자주 묻는 질문
-                </Link>
+                  카카오톡 상담
+                </a>
               </li>
               <li>
-                <Link 
-                  href="/contact" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('contact')}
+                <a
+                  href="https://blog.naver.com/kincv12"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-primary"
                 >
-                  문의하기
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/privacy" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('privacy')}
-                >
-                  개인정보처리방침
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/terms" 
-                  className="hover:text-primary transition-colors"
-                  onClick={() => handleFooterLinkClick('terms')}
-                >
-                  이용약관
-                </Link>
+                  네이버 블로그
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* 저작권 */}
-        <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} 돈키호테 푸드트럭. All rights reserved.</p>
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>© {new Date().getFullYear()} 돈키호테. All rights reserved.</p>
         </div>
       </div>
     </footer>

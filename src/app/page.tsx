@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useCountUp } from '@/hooks/useCountUp';
+import VideoBackground from '@/components/VideoBackground';
 
 // 핵심 서비스 데이터
 const coreServices = [
@@ -66,16 +66,7 @@ export default function Home() {
     <main>
       {/* 히어로 섹션 */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/hero-background.webp"
-            alt="돈키호테 푸드트럭 메인 이미지"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
+        <VideoBackground />
         <div className="relative z-10 text-center text-white px-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
