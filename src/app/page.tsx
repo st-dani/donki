@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCountUp } from '@/hooks/useCountUp';
 
 // 핵심 서비스 데이터
 const coreServices = [
@@ -31,21 +32,34 @@ const coreServices = [
 // 우리의 강점 데이터
 const strengths = [
   {
-    number: '2,000+',
+    number: 2000,
     title: '행사 경험',
-    description: '전국 방방곡곡의 특별한 순간'
+    description: '전국 방방곡곡의 특별한 순간',
+    suffix: '+'
   },
   {
-    number: '98%',
+    number: 98,
     title: '고객 만족도',
-    description: '맛과 서비스 모두 만족'
+    description: '맛과 서비스 모두 만족',
+    suffix: '%'
   },
   {
-    number: '24/7',
+    number: 24,
     title: '맞춤 상담',
-    description: '언제든 편하게 문의하세요'
+    description: '언제든 편하게 문의하세요',
+    suffix: '/7'
   }
 ];
+
+const StrengthNumber = ({ number, suffix }: { number: number, suffix: string }) => {
+  const count = useCountUp(number);
+  return (
+    <div className="text-4xl md:text-5xl font-bold mb-2">
+      {count}
+      <span>{suffix}</span>
+    </div>
+  );
+};
 
 export default function Home() {
   return (
@@ -145,7 +159,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-5xl font-bold mb-2">{item.number}</div>
+                <StrengthNumber number={item.number} suffix={item.suffix} />
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                 <p className="text-primary-light">{item.description}</p>
               </motion.div>

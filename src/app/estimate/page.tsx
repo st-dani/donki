@@ -1,126 +1,81 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { submitEstimate } from '../actions/estimate';
 import { useState } from 'react';
-import type { EstimateFormData } from '../actions/estimate';
+
+// 행사 종류 데이터
+const eventTypes = [
+  { id: 'corporate', label: '기업 행사', description: '워크숍, 창립기념일, 체육대회 등' },
+  { id: 'entertainment', label: '연예인 서포트', description: '촬영장, 콘서트장 케이터링' },
+  { id: 'school', label: '학교 행사', description: '입학식, 졸업식, 축제 등' },
+  { id: 'festival', label: '지역 축제', description: '지역 행사, 페스티벌 등' },
+  { id: 'private', label: '개인 행사', description: '결혼식, 생일파티, 가족 모임 등' },
+  { id: 'other', label: '기타', description: '그 외 모든 행사' }
+];
 
 export default function Estimate() {
-  const [formStatus, setFormStatus] = useState<{
-    type: 'success' | 'error' | null;
-    message: string;
-  }>({
-    type: null,
-    message: ''
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    eventType: '',
+    date: '',
+    location: '',
+    attendees: '',
+    details: ''
   });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    
-    const data: EstimateFormData = {
-      company: formData.get('company') as string,
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      phone: formData.get('phone') as string,
-      service: formData.get('service') as string,
-      budget: formData.get('budget') as string,
-      date: formData.get('date') as string,
-      message: formData.get('message') as string,
-      privacy: formData.get('privacy') === 'on'
-    };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: 실제 폼 제출 로직 구현
+    console.log('Form submitted:', formData);
+    alert('견적 문의가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.');
+  };
 
-    const result = await submitEstimate(data);
-    
-    setFormStatus({
-      type: result.success ? 'success' : 'error',
-      message: result.message
-    });
-
-    if (result.success) {
-      event.currentTarget.reset();
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
-    <div className="pt-32">
-      {/* 견적 문의 소개 */}
-      <section className="py-20 bg-gradient-to-b from-yellow-50 to-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h1 className="text-4xl font-bold mb-8">견적 문의</h1>
-            <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-              프로젝트에 맞는 최적의 서비스를 제안해드립니다.<br />
-              아래 양식을 작성해주시면 빠른 시일 내에 연락드리겠습니다.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <main className="min-h-screen py-20">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+            견적 문의
+          </h1>
+          <p className="text-xl text-gray-600 text-center mb-12">
+            돈키호테 푸드트럭과 함께 특별한 순간을 만들어보세요.<br />
+            상세한 정보를 입력해 주시면 맞춤 견적을 제안해드립니다.
+          </p>
 
-      {/* 견적 문의 폼 */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            {formStatus.type && (
-              <div
-                className={`mb-8 p-4 rounded-lg ${
-                  formStatus.type === 'success'
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-red-100 text-red-700'
-                }`}
-              >
-                {formStatus.message}
-              </div>
-            )}
-            
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* 기본 정보 */}
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold mb-6">기본 정보</h3>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* 기본 정보 */}
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold mb-6">기본 정보</h2>
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="company" className="block text-gray-700 mb-2">
-                    회사명 *
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="name" className="block text-gray-700 mb-2">
-                    담당자명 *
+                  <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                    이름 *
                   </label>
                   <input
                     type="text"
                     id="name"
                     name="name"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="홍길동"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-gray-700 mb-2">
-                    이메일 *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">
                     연락처 *
                   </label>
                   <input
@@ -128,116 +83,155 @@ export default function Estimate() {
                     id="phone"
                     name="phone"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="010-0000-0000"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                    이메일
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="example@email.com"
                   />
                 </div>
               </div>
+            </div>
 
-              {/* 서비스 정보 */}
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold mb-6">서비스 정보</h3>
-                <div>
-                  <label htmlFor="service" className="block text-gray-700 mb-2">
-                    관심 서비스 *
+            {/* 행사 정보 */}
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold mb-6">행사 정보</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="md:col-span-2">
+                  <label htmlFor="eventType" className="block text-gray-700 font-medium mb-2">
+                    행사 종류 *
                   </label>
                   <select
-                    id="service"
-                    name="service"
+                    id="eventType"
+                    name="eventType"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    value={formData.eventType}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
-                    <option value="">선택해주세요</option>
-                    <option value="corporate">기업행사</option>
-                    <option value="catering">각종케이터링</option>
-                    <option value="religious">종교행사</option>
-                    <option value="celebrity">연예인서포트</option>
-                    <option value="university">대학축제</option>
-                    <option value="military">군부대</option>
-                    <option value="filming">촬영장</option>
-                    <option value="sports">체육대회</option>
-                    <option value="snack">간식차</option>
-                    <option value="coffee">커피차</option>
-                    <option value="public">공공기관</option>
-                    <option value="school">학교</option>
-                    <option value="kindergarten">유치원</option>
-                    <option value="festival">행사축제</option>
-                    <option value="event">이벤트</option>
-                    <option value="other">기타</option>
+                    <option value="">행사 종류를 선택해주세요</option>
+                    {eventTypes.map(type => (
+                      <option key={type.id} value={type.id}>
+                        {type.label} - {type.description}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="budget" className="block text-gray-700 mb-2">
-                    예상 비용
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="">선택해주세요</option>
-                    <option value="1">50~100만원</option>
-                    <option value="2">100~200만원</option>
-                    <option value="3">200~300만원</option>
-                    <option value="4">300~500만원</option>
-                    <option value="5">500~1000만원</option>
-                    <option value="6">1000만원 이상</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="date" className="block text-gray-700 mb-2">
-                    희망 진행 시기
+                  <label htmlFor="date" className="block text-gray-700 font-medium mb-2">
+                    행사 날짜 *
                   </label>
                   <input
-                    type="month"
+                    type="date"
                     id="date"
                     name="date"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-gray-700 mb-2">
-                    문의 내용 *
+                  <label htmlFor="attendees" className="block text-gray-700 font-medium mb-2">
+                    예상 인원 *
+                  </label>
+                  <input
+                    type="number"
+                    id="attendees"
+                    name="attendees"
+                    required
+                    value={formData.attendees}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="100"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="location" className="block text-gray-700 font-medium mb-2">
+                    행사 장소 *
+                  </label>
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    required
+                    value={formData.location}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="서울시 강남구..."
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="details" className="block text-gray-700 font-medium mb-2">
+                    추가 요청사항
                   </label>
                   <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="프로젝트에 대해 자세히 알려주세요."
-                  ></textarea>
-                </div>
-              </div>
-
-              {/* 개인정보 동의 */}
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id="privacy"
-                    name="privacy"
-                    required
-                    className="mt-1 mr-2"
+                    id="details"
+                    name="details"
+                    value={formData.details}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="메뉴 선호도, 특별한 요청사항 등을 자유롭게 작성해주세요."
                   />
-                  <label htmlFor="privacy" className="text-gray-700">
-                    개인정보 수집 및 이용에 동의합니다. *
-                  </label>
                 </div>
               </div>
+            </div>
 
-              {/* 제출 버튼 */}
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-full text-lg font-medium transition-colors"
+            {/* 제출 버튼 */}
+            <div className="text-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                type="submit"
+                className="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-full text-lg font-medium transition-colors"
+              >
+                견적 문의하기
+              </motion.button>
+              <p className="mt-4 text-gray-600">
+                * 필수 입력 항목입니다
+              </p>
+            </div>
+          </form>
+
+          {/* 문의 방법 안내 */}
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl font-bold mb-4">다른 문의 방법</h2>
+            <div className="space-y-2">
+              <p>
+                <span className="font-medium">전화:</span>{' '}
+                <a href="tel:010-4680-5447" className="text-primary hover:text-primary-dark">
+                  010-4680-5447
+                </a>
+              </p>
+              <p>
+                <span className="font-medium">카카오톡:</span>{' '}
+                <a
+                  href="http://pf.kakao.com/_xfSERG/chat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary-dark"
                 >
-                  견적 문의하기
-                </button>
-              </div>
-            </form>
+                  @돈키호테
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </motion.div>
+      </div>
+    </main>
   );
 } 
