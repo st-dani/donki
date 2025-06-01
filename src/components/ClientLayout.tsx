@@ -15,7 +15,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="pt-16"
+        className="pt-20"
       >
         {children}
       </motion.main>
