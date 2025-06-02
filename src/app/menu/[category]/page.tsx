@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -105,8 +105,8 @@ const menuData = {
 };
 
 export default function CategoryPage() {
-  const params = useParams();
-  const category = params?.category as string || 'all';
+  const searchParams = useSearchParams();
+  const category = searchParams?.get('category') || 'bunsik';
   const data = menuData[category as keyof typeof menuData];
 
   if (!data) {
