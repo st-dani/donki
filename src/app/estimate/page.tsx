@@ -25,11 +25,38 @@ export default function Estimate() {
     details: ''
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: 실제 폼 제출 로직 구현
-    console.log('Form submitted:', formData);
-    alert('견적 문의가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.');
+  
+    try {
+      const response = await fetch('/api/estimate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('견적 문의 전송에 실패했습니다.');
+      }
+
+      alert('견적 문의가 성공적으로 전송되었습니다. 빠른 시일 내에 연락드리겠습니다.');
+      // 폼 초기화
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        eventType: '',
+        date: '',
+        location: '',
+        attendees: '',
+        details: ''
+      });
+    } catch (error) {
+      console.error('견적 문의 전송 중 오류:', error);
+      alert('견적 문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

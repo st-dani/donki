@@ -1,20 +1,41 @@
 import { NextResponse } from 'next/server';
-import fetch from 'node-fetch';
-import { parseString } from 'xml2js';
+import { parseString, ParserOptions } from 'xml2js';
 import { promisify } from 'util';
 
-const parseXML = promisify(parseString);
+const parseXML = promisify<string, ParserOptions, RSSResponse>(parseString);
+
+// XML 파싱 옵션
+const XML_PARSE_OPTIONS = {
+  trim: true,
+  normalize: true,
+  explicitArray: true,
+  normalizeTags: false,
+  attrkey: 'attributes',
+  tagNameProcessors: [(name: string) => name.toLowerCase()],
+  valueProcessors: [(value: string) => {
+    // HTML 엔티티 디코딩
+    return value
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, ' ');
+  }]
+};
 
 const NAVER_BLOG_RSS_URL = 'https://rss.blog.naver.com/kincv12.xml';
 
 const CATEGORIES = [
   '전체',
   '기업행사',
+  '촬영장',
   '연예인',
-  '공공기관',
   '학교',
+  '공공기관',
   '유치원',
-  '행사축제'
+  '축제',
+  '기타행사'
 ] as const;
 
 type Category = typeof CATEGORIES[number];
@@ -22,29 +43,37 @@ type Category = typeof CATEGORIES[number];
 // 카테고리 키워드 매핑
 const CATEGORY_KEYWORDS = {
   '기업행사': [
-    '기업', '회사', '워크샵', '세미나', '케이터링', '출장', 
-    '직원', '임직원', '사원', '팀빌딩', '단합', '회식', '연수',
-    '신년회', '송년회', '기업행사', '사내행사', '연말행사'
+    '기업', '회사', '워크샵', '세미나', '임직원', '직원', 
+    '팀빌딩', '단합', '회식', '복지', '기업행사', '사내행사'
+  ],
+  '촬영장': [
+    '촬영', '방송', '드라마', '영화', '예능', '광고', 
+    '스태프', '제작진', '촬영장', '스튜디오', '현장'
   ],
   '연예인': [
-    '연예인', '가수', '배우', '아이돌', '공연', '촬영', '방송',
-    '축하공연', '사인회', '팬미팅', '쇼케이스', '콘서트',
-    '연예기획', '엔터테인먼트', '스타', '셀럽'
-  ],
-  '공공기관': [
-    '공공기관', '관공서', '시청', '구청', '군청', '행정', '정부',
-    '공단', '공사', '협회', '기관', '센터', '복지관', '보건소',
-    '주민센터', '공기업', '지자체', '공공', '관공'
+    '연예인', '아이돌', '배우', '가수', '셀럽', '스타', 
+    '팬미팅', '팬사인회', '쇼케이스', '방송인'
   ],
   '학교': [
-    '학교', '대학교', '고등학교', '중학교', '초등학교', '학원',
-    '입학식', '졸업식', '축제', '체육대회', '학예회', '개강',
-    '종강', '학생', '교직원', '학교행사', '대학', '캠퍼스'
+    '학교', '대학교', '고등학교', '중학교', '초등학교',
+    '학원', '교직원', '선생님', '학생', '교육', '축제',
+    '입학식', '졸업식', '학교행사'
+  ],
+  '공공기관': [
+    '공공기관', '관공서', '시청', '구청', '군청', '행정', 
+    '공단', '공사', '협회', '센터', '공무원', '정부'
   ],
   '유치원': [
-    '유치원', '어린이집', '놀이방', '키즈', '아동', '어린이',
-    '원아', '보육', '돌봄', '유아', '놀이', '체험학습',
-    '재롱잔치', '발표회', '어린이날'
+    '유치원', '어린이집', '놀이방', '키즈', '아동',
+    '어린이', '원아', '보육', '졸업식', '입학식'
+  ],
+  '축제': [
+    '축제', '페스티벌', '행사', '공연', '박람회', 
+    '전시회', '마켓', '점등식', '지역축제', '문화제'
+  ],
+  '기타행사': [
+    '기타', '특별', '이벤트', '행사', '파티', '모임',
+    '기념일', '출장', '케이터링'
   ]
 };
 
@@ -59,7 +88,8 @@ interface NaverBlogPost {
   title: string[];
   link: string[];
   description: string[];
-  pubDate: string[];
+  pubDate?: string[];  // Optional as it might be pubdate
+  pubdate?: string[];  // Optional lowercase variant
 }
 
 interface RSSResponse {
@@ -68,6 +98,16 @@ interface RSSResponse {
       item: NaverBlogPost[];
     }];
   };
+}
+
+interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  thumbnail: string;
+  category: string;
+  link: string;
 }
 
 // HTML 문자열에서 대표 이미지 URL을 추출하는 함수
@@ -105,15 +145,28 @@ function extractThumbnailUrl(html: string): string | null {
   }
 }
 
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(date);
+}
+
 function determineCategory(title: string, description: string): string {
   const content = `${title} ${description}`.toLowerCase();
   
   // 각 카테고리별 키워드 매칭 점수 계산
   const scores = Object.entries(CATEGORY_KEYWORDS).map(([category, keywords]) => {
     const score = keywords.reduce((count, keyword) => {
-      const regex = new RegExp(keyword, 'gi');
-      const matches = content.match(regex);
-      return count + (matches ? matches.length : 0);
+      // 제목에서 발견된 키워드는 가중치 2배
+      const titleScore = (title.toLowerCase().match(new RegExp(keyword, 'gi')) || []).length * 2;
+      // 본문에서 발견된 키워드는 가중치 1배
+      const descScore = (description.toLowerCase().match(new RegExp(keyword, 'gi')) || []).length;
+      return count + titleScore + descScore;
     }, 0);
     return { category, score };
   });
@@ -121,10 +174,26 @@ function determineCategory(title: string, description: string): string {
   // 가장 높은 점수의 카테고리 선택
   const bestMatch = scores.reduce((best, current) => 
     current.score > best.score ? current : best,
-    { category: '행사축제', score: 0 }
+    { category: '기타모든행사', score: 0 }
   );
 
   return bestMatch.category;
+}
+
+function cleanText(text: string): string {
+  // HTML 태그 제거
+  const withoutTags = text.replace(/<[^>]+>/g, '');
+  // HTML 엔티티 디코딩
+  const decoded = withoutTags
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
+  // 연속된 공백 제거
+  return decoded.replace(/\s+/g, ' ').trim();
 }
 
 // 샘플 포스트 데이터
@@ -179,41 +248,143 @@ const SAMPLE_POSTS = [
   }
 ];
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: Request) {
   try {
-    const response = await fetch(NAVER_BLOG_RSS_URL);
-    const xmlText = await response.text();
-    const result = await parseXML(xmlText) as RSSResponse;
-    
-    if (!result.rss?.channel?.[0]?.item) {
-      console.log('RSS feed not available, using sample data');
-      return NextResponse.json({ posts: SAMPLE_POSTS });
-    }
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category') || '전체';
 
-    const items = result.rss.channel[0].item;
-    const posts = items.map((item, index) => {
-      const description = item.description[0];
-      const imageMatch = description.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/);
-      const thumbnail = imageMatch ? imageMatch[1] : DEFAULT_IMAGES[index % DEFAULT_IMAGES.length];
-      
-      const title = item.title[0];
-      const cleanDescription = description.replace(/<[^>]*>/g, '');
-      const category = determineCategory(title, cleanDescription);
-
-      return {
-        title: title,
-        link: item.link[0],
-        pubDate: item.pubDate[0],
-        thumbnail: thumbnail,
-        description: cleanDescription.substring(0, 200) + '...',
-        category: category
-      };
+    console.log('Fetching RSS feed...');
+    const response = await fetch(NAVER_BLOG_RSS_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/xml; charset=utf-8'
+      }
     });
+    
+    if (!response.ok) {
+      console.error('RSS feed fetch failed:', response.status, response.statusText);
+      return NextResponse.json(
+        { error: `Failed to fetch RSS feed: ${response.status} ${response.statusText}` },
+        { 
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        }
+      );
+    }
+    
+    const xmlText = await response.text();
+    console.log('RSS feed content (first 500 chars):', xmlText.substring(0, 500));
+    
+    try {
+      const result = await parseXML(xmlText, XML_PARSE_OPTIONS) as RSSResponse;
+      console.log('Parsed RSS structure:', JSON.stringify(result.rss?.channel?.[0]?.item?.[0], null, 2));
+      
+      if (!result.rss?.channel?.[0]?.item) {
+        console.error('Invalid RSS feed structure:', result);
+        return NextResponse.json(
+          { error: 'Invalid RSS feed structure' },
+          { 
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8'
+            }
+          }
+        );
+      }
 
-    return NextResponse.json({ posts });
+      const posts = result.rss.channel[0].item.map((post: NaverBlogPost) => {
+        try {
+          // 필수 필드가 없는 경우 건너뛰기
+          if (!post.title?.[0] || !post.link?.[0]) {
+            console.warn('Missing required fields in post:', JSON.stringify(post));
+            return null;
+          }
+
+          const title = cleanText(post.title[0]);
+          const description = post.description?.[0] || '';
+          const link = post.link[0];
+          // pubDate 또는 pubdate 필드 사용
+          const pubDate = (post.pubDate?.[0] || post.pubdate?.[0] || new Date().toISOString());
+          const id = link.split('/').pop() || '';
+          
+          // 썸네일 이미지 추출 시도
+          let thumbnail = extractThumbnailUrl(description);
+          if (!thumbnail) {
+            // description에서 이미지를 찾지 못한 경우 기본 이미지 사용
+            thumbnail = DEFAULT_IMAGES[Math.floor(Math.random() * DEFAULT_IMAGES.length)];
+          }
+
+          const postCategory = determineCategory(title, description);
+          
+          return {
+            id,
+            title,
+            excerpt: cleanText(description).substring(0, 200) + '...',
+            date: formatDate(pubDate),
+            thumbnail,
+            category: postCategory,
+            link
+          };
+        } catch (postError) {
+          console.error('Error processing post:', JSON.stringify(post), postError);
+          return null;
+        }
+      }).filter(Boolean);
+
+      if (posts.length === 0) {
+        console.error('No valid posts found after processing');
+        // 샘플 포스트로 폴백
+        return NextResponse.json(
+          { posts: SAMPLE_POSTS },
+          {
+            headers: {
+              'Cache-Control': 'no-store',
+              'Content-Type': 'application/json; charset=utf-8'
+            }
+          }
+        );
+      }
+
+      const filteredPosts = category === '전체' 
+        ? posts 
+        : posts.filter((post) => post && post.category === category);
+
+      return NextResponse.json(
+        { posts: filteredPosts },
+        {
+          headers: {
+            'Cache-Control': 'no-store',
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        }
+      );
+    } catch (parseError) {
+      console.error('Error parsing XML:', parseError);
+      console.log('XML content:', xmlText);
+      return NextResponse.json(
+        { error: 'Failed to parse RSS feed' },
+        { 
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        }
+      );
+    }
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
-    console.log('Error occurred, using sample data');
-    return NextResponse.json({ posts: SAMPLE_POSTS });
+    console.error('Error processing blog posts:', error);
+    return NextResponse.json(
+      { error: 'Failed to process blog posts' },
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      }
+    );
   }
 } 

@@ -1,16 +1,20 @@
-export default function VideoBackground() {
+'use client';
+
+const VideoBackground = () => {
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden z-[1]">
+    <div className="relative w-full h-full rounded-3xl overflow-hidden">
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute min-w-full min-h-full object-cover"
+        className="w-full h-full object-cover"
       >
-        <source src="/videos/hero-background.mp4" type="video/mp4" />
+        <source src="/videos/background.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-indigo-900/10 backdrop-blur-sm" />
     </div>
   );
-} 
+};
+
+export default VideoBackground; 

@@ -16,6 +16,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'blogpfthumb.phinf.naver.net',
+      },
+      {
+        protocol: 'https',
         hostname: '*.pstatic.net',
       },
     ],
@@ -37,6 +41,15 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  webpack: (config, { isServer }) => {
+    // 웹팩 설정 최적화
+    config.optimization = {
+      ...config.optimization,
+      moduleIds: 'deterministic',
+    }
+    
+    return config
+  },
 };
 
 module.exports = nextConfig; 

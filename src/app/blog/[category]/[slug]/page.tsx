@@ -3,6 +3,9 @@
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { posts } from '@/data/posts';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
 
 interface Post {
   title: string;
@@ -11,6 +14,7 @@ interface Post {
   content: string;
   author: string;
   tags: string[];
+  image?: string;
 }
 
 interface Posts {
@@ -50,20 +54,11 @@ const posts: Posts = {
 
 export default function BlogPost() {
   const params = useParams();
-  const slug = params.slug as string;
+  const slug = params?.slug as string;
   const post = posts[slug];
 
   if (!post) {
-    return (
-      <div className="pt-32 min-h-screen">
-        <div className="container mx-auto px-4 py-20">
-          <h1 className="text-3xl font-bold mb-8">포스트를 찾을 수 없습니다.</h1>
-          <Link href="/blog" className="text-primary hover:text-primary-dark">
-            블로그 목록으로 돌아가기
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -76,23 +71,30 @@ export default function BlogPost() {
         >
           <div className="max-w-3xl mx-auto">
             <div className="mb-8">
-              <span className="bg-primary text-white px-3 py-1 rounded-full text-sm">
-                {post.category}
-              </span>
-              <h1 className="text-4xl font-bold mt-4 mb-4">{post.title}</h1>
-              <div className="flex items-center text-gray-600 text-sm">
-                <span>{post.date}</span>
-                <span className="mx-2">•</span>
-                <span>{post.author}</span>
-              </div>
+              <Link href="/blog" className="text-theme-mint-600 hover:text-theme-mint-700">
+                ← 블로그 목록으로
+              </Link>
             </div>
-
-            <div className="prose prose-lg max-w-none">
-              {post.content.split('\n').map((line: string, index: number) => (
-                <p key={index} className="mb-4">
-                  {line}
-                </p>
-              ))}
+            <header className="mb-8">
+              <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+              <div className="flex items-center gap-4 text-gray-600">
+                <time dateTime={post.date}>{post.date}</time>
+                <span>•</span>
+                <span>{post.category}</span>
+              </div>
+            </header>
+            {post.image && (
+              <div className="relative aspect-video mb-8 rounded-lg overflow-hidden">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div className="prose max-w-none">
+              {post.content}
             </div>
 
             <div className="mt-12 pt-8 border-t">
