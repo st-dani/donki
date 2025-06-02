@@ -66,9 +66,9 @@ export default function KakaoChannel({ type = 'footer' }: KakaoChannelProps) {
     <div className="fixed bottom-4 right-4 z-50">
       <button
         onClick={handleStartChat}
-        className="bg-[#FFE812] hover:bg-[#FFE200] text-black px-6 py-3 rounded-full shadow-lg flex items-center space-x-2 font-medium"
+        className="bg-[#FFE812] hover:bg-[#FFE200] text-black px-4 py-2 rounded-full shadow-lg flex items-center space-x-1.5 font-medium"
         style={{
-          minWidth: '140px',
+          minWidth: '100px',
           borderRadius: '100px'
         }}
       >
