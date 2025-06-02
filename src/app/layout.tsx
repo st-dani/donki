@@ -3,8 +3,13 @@ import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
 import Navigation from "@/components/Navigation";
-import LoadingProgress from "@/components/LoadingProgress";
 import Footer from "@/components/Footer";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+const LoadingProgress = dynamic(() => import('@/components/LoadingProgress'), {
+  ssr: false
+});
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
@@ -80,7 +85,9 @@ export default function RootLayout({
   return (
     <html lang="ko" className="scroll-smooth">
       <body className={`${notoSansKr.className} antialiased min-h-screen flex flex-col`}>
-        <LoadingProgress />
+        <Suspense>
+          <LoadingProgress />
+        </Suspense>
         <Navigation />
         <main className="flex-grow">
           <ClientLayout>{children}</ClientLayout>
