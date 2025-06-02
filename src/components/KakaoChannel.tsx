@@ -66,25 +66,25 @@ export default function KakaoChannel({ type = 'footer' }: KakaoChannelProps) {
     <div className="fixed bottom-4 right-4 z-50">
       <button
         onClick={handleStartChat}
-        className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full shadow-lg flex items-center space-x-2"
+        className="bg-[#FFE812] hover:bg-[#FFE200] text-black px-6 py-3 rounded-full shadow-lg flex items-center space-x-2 font-medium"
+        style={{
+          minWidth: '140px',
+          borderRadius: '100px'
+        }}
       >
         <svg 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 20 20" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
         >
           <path 
-            d="M12 3C6.48 3 2 6.48 2 12C2 17.52 6.48 21 12 21C17.52 21 22 17.52 22 12C22 6.48 17.52 3 12 3ZM12 19C7.59 19 4 15.41 4 11C4 6.59 7.59 3 12 3C16.41 3 20 6.59 20 11C20 15.41 16.41 19 12 19Z" 
-            fill="currentColor"
-          />
-          <path 
-            d="M13 7H11V13H17V11H13V7Z" 
-            fill="currentColor"
+            d="M2 8.5C2 4.5 5.5 1 10 1C14.5 1 18 4.5 18 8.5C18 12.5 14.5 16 10 16L8.5 19L7 16C4.2 15 2 12 2 8.5Z" 
+            fill="black"
           />
         </svg>
-        <span>채팅 상담</span>
+        <span className="text-black font-medium">문의</span>
       </button>
     </div>
   );
