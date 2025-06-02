@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import KakaoInitializer from '@/components/KakaoInitializer';
 import Script from 'next/script';
+import KakaoChannel from '@/components/KakaoChannel';
 
 const LoadingProgress = dynamic(() => import('@/components/LoadingProgress'), {
   ssr: false
@@ -108,6 +109,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <KakaoInitializer />
+        <KakaoChannel type="floating" />
       </body>
     </html>
   );

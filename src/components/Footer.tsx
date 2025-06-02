@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import KakaoChannel from './KakaoChannel';
 
 export default function Footer() {
   const { trackEvent } = useAnalytics();
@@ -73,14 +74,7 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4">문의하기</h3>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="http://pf.kakao.com/_xfSERG/chat"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-primary"
-                >
-                  카카오톡 상담
-                </a>
+                <KakaoChannel />
               </li>
               <li>
                 <a

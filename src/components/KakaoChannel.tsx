@@ -6,7 +6,11 @@ declare global {
   }
 }
 
-export default function KakaoChannel() {
+interface KakaoChannelProps {
+  type?: 'footer' | 'floating';
+}
+
+export default function KakaoChannel({ type = 'footer' }: KakaoChannelProps) {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js';
@@ -16,6 +20,16 @@ export default function KakaoChannel() {
         if (!window.Kakao.isInitialized()) {
           window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
         }
+
+        if (type === 'floating') {
+          // 채팅 버튼 생성
+          window.Kakao.Channel.createChatButton({
+            container: '#kakao-chat-button',
+            channelPublicId: '_xnzlJn',
+            size: 'large',
+            supportMultipleDensities: true
+          });
+        }
       }
     };
     document.head.appendChild(script);
@@ -23,15 +37,7 @@ export default function KakaoChannel() {
     return () => {
       document.head.removeChild(script);
     };
-  }, []);
-
-  const handleAddChannel = () => {
-    if (window.Kakao) {
-      window.Kakao.Channel.addChannel({
-        channelPublicId: '_xnzlJn'
-      });
-    }
-  };
+  }, [type]);
 
   const handleStartChat = () => {
     if (window.Kakao) {
@@ -41,31 +47,20 @@ export default function KakaoChannel() {
     }
   };
 
-  return (
-    <div className="flex flex-col space-y-4 items-center">
-      <button
-        onClick={handleAddChannel}
-        className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-medium flex items-center space-x-2"
-      >
-        <img 
-          src="/images/kakao-logo.png" 
-          alt="Kakao Logo" 
-          className="w-6 h-6"
-        />
-        <span>채널 추가하기</span>
-      </button>
-      
+  if (type === 'footer') {
+    return (
       <button
         onClick={handleStartChat}
-        className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-medium flex items-center space-x-2"
+        className="text-gray-300 hover:text-yellow-400 transition-colors"
       >
-        <img 
-          src="/images/kakao-logo.png" 
-          alt="Kakao Logo" 
-          className="w-6 h-6"
-        />
-        <span>채팅 시작하기</span>
+        카카오톡 상담
       </button>
+    );
+  }
+
+  return (
+    <div className="fixed bottom-4 right-4 z-50">
+      <div id="kakao-chat-button"></div>
     </div>
   );
 } 
