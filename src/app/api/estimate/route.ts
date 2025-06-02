@@ -15,39 +15,95 @@ const transporter = nodemailer.createTransport({
 // 카카오톡 메시지 전송 함수
 async function sendKakaoMessage(content: string) {
   try {
-    const response = await fetch('https://kapi.kakao.com/v2/api/talk/memo/default/send', {
+    console.log('=== 카카오톡 메시지 전송 디버깅 시작 ===');
+    console.log('환경변수 체크:');
+    console.log('- KAKAO_CHANNEL_ID:', process.env.KAKAO_CHANNEL_ID);
+    console.log('- KAKAO_REST_API_KEY 길이:', process.env.KAKAO_REST_API_KEY?.length);
+    
+    if (!process.env.KAKAO_CHANNEL_ID) {
+      throw new Error('카카오 채널 ID가 설정되지 않았습니다.');
+    }
+
+    if (!process.env.KAKAO_REST_API_KEY) {
+      throw new Error('카카오 REST API 키가 설정되지 않았습니다.');
+    }
+    
+    // 메시지 데이터
+    const messageData = {
+      channel_id: process.env.KAKAO_CHANNEL_ID,
+      template_object: JSON.stringify({
+        object_type: 'feed',
+        content: {
+          title: '새로운 견적 문의가 도착했습니다',
+          description: content.substring(0, 200), // 최대 200자로 제한
+          image_url: 'https://donki-sepia.vercel.app/images/logo.png',
+          link: {
+            web_url: 'https://donki-sepia.vercel.app',
+            mobile_web_url: 'https://donki-sepia.vercel.app'
+          }
+        },
+        buttons: [
+          {
+            title: '웹사이트로 이동',
+            link: {
+              web_url: 'https://donki-sepia.vercel.app',
+              mobile_web_url: 'https://donki-sepia.vercel.app'
+            }
+          }
+        ]
+      })
+    };
+    
+    console.log('API 요청 데이터:');
+    console.log(JSON.stringify(messageData, null, 2));
+    
+    console.log('API 호출 시작...');
+    const response = await fetch('https://kapi.kakao.com/v1/api/talk/channel/message/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${process.env.KAKAO_ACCESS_TOKEN}`,
+        'Authorization': `KakaoAK ${process.env.KAKAO_REST_API_KEY}`,
       },
       body: new URLSearchParams({
-        template_object: JSON.stringify({
-          object_type: 'text',
-          text: content,
-          link: {
-            web_url: process.env.SITE_URL || 'https://donki.vercel.app',
-            mobile_web_url: process.env.SITE_URL || 'https://donki.vercel.app',
-          },
-          button_title: '웹사이트로 이동'
-        }),
+        channel_id: messageData.channel_id,
+        template_object: messageData.template_object
       }),
     });
 
+    console.log('API 응답 받음:');
+    console.log('- 상태 코드:', response.status);
+    console.log('- 상태 텍스트:', response.statusText);
+    
+    const responseText = await response.text();
+    console.log('- 응답 텍스트:', responseText);
+    
+    let responseData;
+    try {
+      responseData = JSON.parse(responseText);
+      console.log('- 응답 데이터:', JSON.stringify(responseData, null, 2));
+    } catch (error: any) {
+      console.log('- JSON 파싱 실패:', error.message);
+    }
+
     if (!response.ok) {
-      throw new Error('카카오톡 메시지 전송 실패');
+      throw new Error(`카카오톡 메시지 전송 실패: ${response.status} ${response.statusText}\n응답: ${responseText}`);
     }
 
     console.log('카카오톡 메시지 전송 성공');
+    console.log('=== 카카오톡 메시지 전송 디버깅 종료 ===');
+    return true;
   } catch (error) {
-    console.error('카카오톡 메시지 전송 중 오류:', error);
+    console.error('카카오톡 메시지 전송 중 오류 발생:');
+    console.error(error);
+    return false;
   }
 }
 
 export async function POST(request: Request) {
   try {
+    console.log('[견적문의] 처리 시작');
     const data = await request.json();
-    console.log('받은 데이터:', data); // 디버깅용 로그
+    console.log('[견적문의] 받은 데이터:', data);
     
     // 관리자용 메시지 내용
     const adminContent = `
@@ -68,7 +124,7 @@ export async function POST(request: Request) {
 ${data.details || '없음'}
 
 문의 시간: ${new Date().toLocaleString('ko-KR')}
-    `;
+    `.trim();
 
     // 고객용 이메일 내용
     const customerEmailContent = `
@@ -94,8 +150,8 @@ ${data.details || '없음'}
       돈키호테 푸드트럭 드림
     `;
 
-    console.log('이메일 전송 시도...'); // 디버깅용 로그
-
+    console.log('[견적문의] 이메일 전송 시작');
+    
     // 관리자에게 이메일 전송
     await transporter.sendMail({
       from: {
@@ -107,8 +163,11 @@ ${data.details || '없음'}
       text: adminContent,
     });
 
+    console.log('[견적문의] 관리자 이메일 전송 완료');
+
     // 고객 이메일이 있는 경우에만 확인 메일 전송
     if (data.email) {
+      console.log('[견적문의] 고객 이메일 전송 시작');
       await transporter.sendMail({
         from: {
           name: '돈키호테 푸드트럭',
@@ -118,16 +177,26 @@ ${data.details || '없음'}
         subject: '[돈키호테] 견적 문의가 접수되었습니다',
         text: customerEmailContent,
       });
+      console.log('[견적문의] 고객 이메일 전송 완료');
     }
 
     // 카카오톡으로 관리자에게 알림 전송
-    if (process.env.KAKAO_ACCESS_TOKEN) {
-      await sendKakaoMessage(adminContent);
+    console.log('[견적문의] 카카오톡 알림 전송 시작');
+    if (process.env.KAKAO_REST_API_KEY) {
+      const kakaoResult = await sendKakaoMessage(adminContent);
+      if (!kakaoResult) {
+        console.error('[견적문의] 카카오톡 메시지 전송 실패');
+      } else {
+        console.log('[견적문의] 카카오톡 메시지 전송 성공');
+      }
+    } else {
+      console.error('[견적문의] 카카오톡 REST API 키가 설정되지 않았습니다.');
     }
 
+    console.log('[견적문의] 처리 완료');
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('견적 문의 처리 중 오류:', error);
+    console.error('[견적문의] 처리 중 오류:', error);
     return NextResponse.json(
       { error: '견적 문의 처리 중 오류가 발생했습니다.' },
       { status: 500 }

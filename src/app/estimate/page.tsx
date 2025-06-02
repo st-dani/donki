@@ -99,6 +99,7 @@ export default function Estimate() {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     placeholder="홍길동"
+                    autoComplete="name"
                   />
                 </div>
                 <div>
@@ -114,6 +115,7 @@ export default function Estimate() {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     placeholder="010-0000-0000"
+                    autoComplete="tel"
                   />
                 </div>
                 <div className="md:col-span-2">
@@ -128,6 +130,7 @@ export default function Estimate() {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     placeholder="example@email.com"
+                    autoComplete="email"
                   />
                 </div>
               </div>

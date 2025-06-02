@@ -6,6 +6,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import KakaoInitializer from '@/components/KakaoInitializer';
+import Script from 'next/script';
 
 const LoadingProgress = dynamic(() => import('@/components/LoadingProgress'), {
   ssr: false
@@ -79,20 +81,33 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ko" className="scroll-smooth">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          type="text/javascript"
+          src="https://developers.kakao.com/sdk/js/kakao.min.js"
+          async
+        ></script>
+      </head>
       <body className={`${notoSansKr.className} antialiased min-h-screen flex flex-col`}>
         <Suspense>
           <LoadingProgress />
         </Suspense>
         <Navigation />
         <main className="flex-grow">
-          <ClientLayout>{children}</ClientLayout>
+          <ClientLayout>
+            <Suspense fallback={<LoadingProgress />}>
+              {children}
+            </Suspense>
+          </ClientLayout>
         </main>
         <Footer />
+        <KakaoInitializer />
       </body>
     </html>
   );
