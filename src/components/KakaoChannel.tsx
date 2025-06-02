@@ -29,6 +29,7 @@ export default function KakaoChannel({ type = 'footer' }: KakaoChannelProps) {
             container: '#kakao-chat-button',
             channelPublicId: '_xnzlJn',
             size: 'large',
+            title: '채팅 상담',
             supportMultipleDensities: true
           });
         }
