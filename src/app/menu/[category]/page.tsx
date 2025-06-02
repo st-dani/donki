@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 const menuData = {
   bunsik: {
@@ -105,11 +106,11 @@ const menuData = {
 
 export default function CategoryPage() {
   const params = useParams();
-  const category = params.category as string;
+  const category = params?.category as string || 'all';
   const data = menuData[category as keyof typeof menuData];
 
   if (!data) {
-    return <div>카테고리를 찾을 수 없습니다.</div>;
+    notFound();
   }
 
   return (
