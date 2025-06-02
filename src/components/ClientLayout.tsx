@@ -1,24 +1,15 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode } from 'react';
+import { Suspense } from 'react';
 
-interface ClientLayoutProps {
-  children: ReactNode;
-}
-
-export default function ClientLayout({ children }: ClientLayoutProps) {
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AnimatePresence mode="wait">
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="pt-20"
-      >
-        {children}
-      </motion.main>
-    </AnimatePresence>
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-theme-mint-600"></div>
+      </div>
+    }>
+      {children}
+    </Suspense>
   );
 } 

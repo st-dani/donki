@@ -5,7 +5,6 @@ import ClientLayout from "@/components/ClientLayout";
 import Navigation from "@/components/Navigation";
 import LoadingProgress from "@/components/LoadingProgress";
 import Footer from "@/components/Footer";
-import { Suspense } from 'react';
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
@@ -84,9 +83,7 @@ export default function RootLayout({
         <LoadingProgress />
         <Navigation />
         <main className="flex-grow">
-          <Suspense fallback={<div>Loading...</div>}>
-            <ClientLayout>{children}</ClientLayout>
-          </Suspense>
+          <ClientLayout>{children}</ClientLayout>
         </main>
         <Footer />
       </body>
