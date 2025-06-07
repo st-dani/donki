@@ -38,12 +38,12 @@ export default function Stats() {
           {/* 두 번째 통계 */}
           <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
             <div className="flex items-baseline gap-2 justify-center">
-              <span className="text-theme-yellow text-6xl font-bold">2,000</span>
-              <span className="text-theme-yellow text-3xl font-bold">+</span>
+              <span className="text-theme-yellow text-6xl font-bold">98</span>
+              <span className="text-theme-yellow text-3xl font-bold">%</span>
               <span className="text-gray-400 ml-2">↗</span>
             </div>
             <p className="text-gray-600 mt-4 text-lg">
-              누적 기업 행사
+              고객 만족도
             </p>
             <div className="mt-6 border-t border-gray-100 pt-4 w-full">
               <p className="text-sm text-gray-400">더 많은 정보 보기</p>
@@ -53,12 +53,12 @@ export default function Stats() {
           {/* 세 번째 통계 */}
           <div className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
             <div className="flex items-baseline gap-2 justify-center">
-              <span className="text-theme-yellow text-6xl font-bold">6,000</span>
+              <span className="text-theme-yellow text-6xl font-bold">500</span>
               <span className="text-theme-yellow text-3xl font-bold">+</span>
               <span className="text-gray-400 ml-2">↗</span>
             </div>
             <p className="text-gray-600 mt-4 text-lg">
-              페스티벌/이벤트 참가
+              행사 진행 횟수
             </p>
             <div className="mt-6 border-t border-gray-100 pt-4 w-full">
               <p className="text-sm text-gray-400">더 많은 정보 보기</p>

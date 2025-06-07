@@ -12,89 +12,24 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// 카카오톡 메시지 전송 함수
-async function sendKakaoMessage(content: string) {
-  try {
-    console.log('=== 카카오톡 메시지 전송 디버깅 시작 ===');
-    console.log('환경변수 체크:');
-    console.log('- KAKAO_CHANNEL_ID:', process.env.KAKAO_CHANNEL_ID);
-    console.log('- KAKAO_REST_API_KEY 길이:', process.env.KAKAO_REST_API_KEY?.length);
-    
-    if (!process.env.KAKAO_CHANNEL_ID) {
-      throw new Error('카카오 채널 ID가 설정되지 않았습니다.');
-    }
+async function sendToZapier(data: any) {
+  const ZAPIER_WEBHOOK_URL = process.env.ZAPIER_WEBHOOK_URL;
 
-    if (!process.env.KAKAO_REST_API_KEY) {
-      throw new Error('카카오 REST API 키가 설정되지 않았습니다.');
-    }
-    
-    // 메시지 데이터
-    const messageData = {
-      channel_id: process.env.KAKAO_CHANNEL_ID,
-      template_object: JSON.stringify({
-        object_type: 'feed',
-        content: {
-          title: '새로운 견적 문의가 도착했습니다',
-          description: content.substring(0, 200), // 최대 200자로 제한
-          image_url: 'https://donki-sepia.vercel.app/images/logo.png',
-          link: {
-            web_url: 'https://donki-sepia.vercel.app',
-            mobile_web_url: 'https://donki-sepia.vercel.app'
-          }
-        },
-        buttons: [
-          {
-            title: '웹사이트로 이동',
-            link: {
-              web_url: 'https://donki-sepia.vercel.app',
-              mobile_web_url: 'https://donki-sepia.vercel.app'
-            }
-          }
-        ]
-      })
-    };
-    
-    console.log('API 요청 데이터:');
-    console.log(JSON.stringify(messageData, null, 2));
-    
-    console.log('API 호출 시작...');
-    const response = await fetch('https://kapi.kakao.com/v1/api/talk/channel/message/send', {
+  try {
+    console.log('[견적문의] Zapier 웹훅 전송 시작');
+    const response = await fetch(ZAPIER_WEBHOOK_URL!, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `KakaoAK ${process.env.KAKAO_REST_API_KEY}`,
+        'Content-Type': 'application/json',
       },
-      body: new URLSearchParams({
-        channel_id: messageData.channel_id,
-        template_object: messageData.template_object
-      }),
+      body: JSON.stringify(data)
     });
 
-    console.log('API 응답 받음:');
-    console.log('- 상태 코드:', response.status);
-    console.log('- 상태 텍스트:', response.statusText);
-    
-    const responseText = await response.text();
-    console.log('- 응답 텍스트:', responseText);
-    
-    let responseData;
-    try {
-      responseData = JSON.parse(responseText);
-      console.log('- 응답 데이터:', JSON.stringify(responseData, null, 2));
-    } catch (error: any) {
-      console.log('- JSON 파싱 실패:', error.message);
-    }
-
-    if (!response.ok) {
-      throw new Error(`카카오톡 메시지 전송 실패: ${response.status} ${response.statusText}\n응답: ${responseText}`);
-    }
-
-    console.log('카카오톡 메시지 전송 성공');
-    console.log('=== 카카오톡 메시지 전송 디버깅 종료 ===');
+    const result = await response.json();
+    console.log('[견적문의] Zapier 웹훅 전송 성공:', result);
     return true;
   } catch (error) {
-    console.error('카카오톡 메시지 전송 중 오류 발생:');
-    console.error(error);
+    console.error('[견적문의] Zapier 웹훅 전송 실패:', error);
     return false;
   }
 }
@@ -110,15 +45,15 @@ export async function POST(request: Request) {
 [새로운 견적 문의]
 
 신청자 정보:
-이름: ${data.name}
-연락처: ${data.phone}
-이메일: ${data.email}
+- 이름: ${data.name}
+- 연락처: ${data.phone}
+- 이메일: ${data.email || '미입력'}
 
 행사 정보:
-행사 종류: ${data.eventType}
-행사 날짜: ${data.date}
-예상 인원: ${data.attendees}명
-행사 장소: ${data.location}
+- 행사 종류: ${data.eventType}
+- 행사 날짜: ${data.date}
+- 예상 인원: ${data.attendees}명
+- 행사 장소: ${data.location}
 
 추가 요청사항:
 ${data.details || '없음'}
@@ -180,25 +115,29 @@ ${data.details || '없음'}
       console.log('[견적문의] 고객 이메일 전송 완료');
     }
 
-    // 카카오톡으로 관리자에게 알림 전송
-    console.log('[견적문의] 카카오톡 알림 전송 시작');
-    if (process.env.KAKAO_REST_API_KEY) {
-      const kakaoResult = await sendKakaoMessage(adminContent);
-      if (!kakaoResult) {
-        console.error('[견적문의] 카카오톡 메시지 전송 실패');
-      } else {
-        console.log('[견적문의] 카카오톡 메시지 전송 성공');
-      }
-    } else {
-      console.error('[견적문의] 카카오톡 REST API 키가 설정되지 않았습니다.');
-    }
+    // Zapier로 데이터 전송
+    const zapierResult = await sendToZapier({
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      eventType: data.eventType,
+      date: data.date,
+      attendees: data.attendees,
+      location: data.location,
+      details: data.details,
+      timestamp: new Date().toISOString()
+    });
 
     console.log('[견적문의] 처리 완료');
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ 
+      success: true,
+      emailSent: true,
+      zapierSent: zapierResult
+    });
   } catch (error) {
     console.error('[견적문의] 처리 중 오류:', error);
     return NextResponse.json(
-      { error: '견적 문의 처리 중 오류가 발생했습니다.' },
+      { success: false, error: '견적 문의 처리 중 오류가 발생했습니다.' },
       { status: 500 }
     );
   }

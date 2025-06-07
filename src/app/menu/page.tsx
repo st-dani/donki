@@ -1,19 +1,17 @@
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import MenuHero from '@/components/menu/MenuHero';
+import MenuCategories from '@/components/menu/MenuCategories';
+import MenuList from '@/components/menu/MenuList';
 
-const MenuClient = dynamic(() => import('@/components/menu/MenuClient'), {
-  loading: () => (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-theme-mint-600"></div>
-    </div>
-  ),
-  ssr: false
-});
+// 페이지 캐시 비활성화
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default function MenuPage() {
   return (
-    <Suspense>
-      <MenuClient />
-    </Suspense>
+    <main>
+      <MenuHero />
+      <MenuCategories />
+      <MenuList />
+    </main>
   );
 } 

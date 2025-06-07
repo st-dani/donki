@@ -70,35 +70,49 @@ export default function MenuClient() {
   return (
     <main className="min-h-screen">
       {/* 히어로 섹션 */}
-      <section className="relative h-[70vh] flex items-center">
+      <section className="relative h-[80vh] flex items-center justify-center">
         <div className="absolute inset-0">
           <Image
-            src="/images/menu/popular-category.webp"
+            src="/images/menu/hero-background.webp"
             alt="돈키호테 푸드트럭 메뉴"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         </div>
-        <div className="container mx-auto px-4 relative z-10 text-white text-center">
+        <div className="container mx-auto px-4 relative z-10 text-white text-center max-w-5xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold mb-6"
+            className="text-5xl md:text-7xl font-bold mb-8"
           >
-            돈키호테 메뉴
+            푸드트럭의 새로운 기준
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl max-w-2xl mx-auto"
+            className="text-xl md:text-3xl font-medium mb-6 text-orange-300"
           >
-            신선한 재료와 특별한 레시피로 만드는<br />
-            맛있는 모험의 시작
+            맛있는 모험을 선사하는 돈키호테
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed"
+          >
+            <p className="mb-4">
+              한식과 멕시칸의 창의적인 퓨전 요리부터<br />
+              추억의 분식과 프리미엄 핫도그까지
+            </p>
+            <p>
+              당신의 특별한 순간을<br className="md:hidden" />
+              더욱 특별하게 만들어드립니다
+            </p>
+          </motion.div>
         </div>
       </section>
 

@@ -32,9 +32,9 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@heroicons/react', 'framer-motion'],
+    optimizePackageImports: ['@heroicons/react'],
   },
-  transpilePackages: ['@heroicons/react'],
+  transpilePackages: ['@heroicons/react', 'framer-motion'],
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

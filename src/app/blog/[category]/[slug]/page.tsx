@@ -3,35 +3,15 @@
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import type { Post, Posts } from '@/data/posts';
-import { posts as dbPosts } from '@/data/posts';
+import type { BlogPost } from '@/types/blog';
+import { blogPosts } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-
-// 임시 데이터
-const localPosts: Posts = {
-  'trend-2024': {
-    title: '2024년 푸드트럭 트렌드 전망',
-    category: 'insight',
-    date: '2024-03-15',
-    content: `
-      2024년 푸드트럭 산업은 새로운 변화의 바람이 불고 있습니다...
-      (content 내용 유지)
-    `,
-    author: '돈키호테',
-    tags: ['트렌드', '푸드트럭', '2024'],
-    image: '/images/trend-2024.jpg'
-  }
-  // ... 다른 게시물들
-};
-
-// 실제 posts 데이터와 임시 데이터 병합
-const allPosts = { ...dbPosts, ...localPosts };
 
 export default function BlogPost() {
   const params = useParams();
   const slug = params?.slug as string;
-  const post = allPosts[slug];
+  const post = blogPosts.find(p => p.link === `/blog/${params.category}/${slug}`);
 
   if (!post) {
     notFound();

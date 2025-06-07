@@ -31,12 +31,12 @@ export default function BrandStories() {
   const [activeStory, setActiveStory] = useState(0);
 
   return (
-    <div className="w-full py-24 bg-white">
+    <div className="w-full py-16 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-16 text-black">STORIES OF BRANDS</h2>
-        <div className="flex gap-4">
+        <div className="flex gap-6">
           {/* 메인 스토리 */}
-          <div className="flex-grow relative aspect-[16/10] rounded-2xl overflow-hidden">
+          <div className="flex-grow relative aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
             <Image
               src={stories[activeStory].image}
               alt={stories[activeStory].quote}
@@ -58,7 +58,7 @@ export default function BrandStories() {
           </div>
 
           {/* 사이드 스토리 썸네일 */}
-          <div className="flex flex-col gap-2 w-24">
+          <div className="flex flex-col gap-3 w-20">
             {stories.map((story, index) => (
               <div
                 key={story.id}
@@ -79,4 +79,4 @@ export default function BrandStories() {
       </div>
     </div>
   );
-} 
+}
