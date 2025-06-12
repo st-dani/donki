@@ -141,6 +141,20 @@ body {
   }
 }
 
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-slide-slower {
+  animation: slide 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
 /* 반응형 타이포그래피 */
 @media (max-width: 640px) {
   h1 {

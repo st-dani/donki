@@ -1,39 +1,66 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const stories = [
   {
     id: 1,
-    image: '/images/imgdata/101/KakaoTalk_20240321_224705046_01.jpg',
-    quote: '"대규모 행사도 돈키호테와 함께라면 완벽합니다"',
-    author: '아모레퍼시픽 행사 담당자',
-    description: '300명 규모 케이터링 진행'
+    image: '/images/brand_stories/daebang_coal_service.jpg',
+    quote: '"따뜻한 마음을 나누는 현장, 돈키호테가 함께했습니다."',
+    author: '대방건설 연탄봉사팀',
+    description: '훈훈한 봉사활동 지원'
   },
   {
     id: 2,
-    image: '/images/imgdata/101/KakaoTalk_20240321_224705046_02.jpg',
-    quote: '"촬영장의 분위기를 한층 더 즐겁게 만들어주셨어요"',
-    author: '한선하 촬영장 매니저',
-    description: '연예인 촬영장 푸드케어 서비스'
+    image: '/images/brand_stories/wjsn_seola_shoot.jpg',
+    quote: '"빛나는 스타의 촬영장, 돈키호테가 에너지를 더합니다."',
+    author: '우주소녀 설아 촬영 스태프',
+    description: '연예인 촬영장 활력 충전'
   },
   {
     id: 3,
-    image: '/images/imgdata/101/KakaoTalk_20240321_224705046_03.jpg',
-    quote: '"신선한 재료와 정갈한 음식으로 임직원들의 호평을 받았습니다"',
+    image: '/images/brand_stories/kolmar_event.jpg',
+    quote: '"기업의 중요한 순간, 돈키호테가 품격을 높입니다."',
     author: '한국콜마 행사 담당자',
-    description: '기업 연회 케이터링 서비스'
+    description: '기업 행사 맞춤 케이터링'
+  },
+  {
+    id: 4,
+    image: '/images/brand_stories/suwon_daycare_catering.jpg',
+    quote: '"우리 아이들의 즐거운 식사 시간, 돈키호테가 책임집니다."',
+    author: '수원 서희 하린 어린이집 원장님',
+    description: '어린이 맞춤 영양 간식 제공'
+  },
+  {
+    id: 5,
+    image: '/images/brand_stories/son_taejin_shoot.jpg',
+    quote: '"열정의 무대 뒤편, 돈키호테가 든든한 지원군이 됩니다."',
+    author: '손태진 촬영팀',
+    description: '아티스트 촬영 현장 서포트'
   }
 ];
 
-export default function BrandStories() {
+interface BrandStoriesProps {
+  className?: string;
+}
+
+export default function BrandStories({ className }: BrandStoriesProps) {
   const [activeStory, setActiveStory] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div className="w-full py-16 bg-white">
+    <div className={`w-full py-16 bg-white ${className || ''}`}>
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-16 text-black">STORIES OF BRANDS</h2>
+        <h2 className="text-4xl font-bold text-center mb-16 text-black">고객의 신뢰로 쌓아올린, 돈키호테 성공 스토리</h2>
         <div className="flex gap-6">
           {/* 메인 스토리 */}
           <div className="flex-grow relative aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
@@ -58,7 +85,7 @@ export default function BrandStories() {
           </div>
 
           {/* 사이드 스토리 썸네일 */}
-          <div className="flex flex-col gap-3 w-20">
+          <div className="flex flex-col gap-3 w-20 justify-between">
             {stories.map((story, index) => (
               <div
                 key={story.id}

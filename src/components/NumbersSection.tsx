@@ -72,7 +72,7 @@ const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
       ref={nodeRef}
       initial={{ opacity: 0, transform: "translateY(20px)" }}
       animate={controls}
-      className="flex items-baseline"
+      className="flex items-baseline justify-center"
     >
       <motion.span
         className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-orange-600"
@@ -87,9 +87,13 @@ const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
   );
 };
 
-export default function NumbersSection() {
+interface NumbersSectionProps {
+  className?: string;
+}
+
+export default function NumbersSection({ className }: NumbersSectionProps) {
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section className={`py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden ${className || ''}`}>
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-gradient-radial from-orange-100/20 to-transparent opacity-70" />
@@ -105,10 +109,10 @@ export default function NumbersSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-wide">
             Numbers That Define Us
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-black font-semibold tracking-wider mb-6">
             우리의 성과는 숫자로 증명됩니다. 매 순간 최선을 다해 만들어온 결과입니다.
           </p>
         </motion.div>
@@ -121,9 +125,8 @@ export default function NumbersSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 relative group"
+              className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 relative group text-center hover:from-orange-100 hover:to-orange-50"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
               <div className="relative">
                 <h3 className="text-gray-600 mb-4 font-medium">{stat.label}</h3>
                 <Counter value={stat.value} suffix={stat.suffix} />

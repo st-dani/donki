@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
+import RootLayoutClient from "@/components/RootLayoutClient";
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
@@ -69,9 +70,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="scroll-smooth">
-      <body className={`${notoSansKr.className} antialiased min-h-screen flex flex-col`}>
+      <RootLayoutClient className={`${notoSansKr.className} antialiased min-h-screen flex flex-col`}>
         {children}
-      </body>
+      </RootLayoutClient>
     </html>
   );
 }

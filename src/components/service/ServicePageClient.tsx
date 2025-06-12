@@ -1,13 +1,20 @@
 'use client';
 
-import { useState, Suspense } from 'react'; // Removed useEffect for now as initial data is passed
+'use client';
+
+import { useState, Suspense, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import HeroSlider from '@/components/service/HeroSlider';
+import dynamic from 'next/dynamic';
 import ServiceHero from '@/components/service/ServiceHero';
-import ServiceListAnimated from '@/components/service/ServiceListAnimated';
-import ProcessListAnimated from '@/components/service/ProcessListAnimated';
+
+const HeroSlider = dynamic(() => import('@/components/service/HeroSlider'), { 
+  ssr: false,
+  loading: () => <div className="relative h-[400px] md:h-[500px] w-full bg-gray-200 animate-pulse" />
+});
+const ServiceListAnimated = dynamic(() => import('@/components/service/ServiceListAnimated'), { ssr: false });
+const ProcessListAnimated = dynamic(() => import('@/components/service/ProcessListAnimated'), { ssr: false });
 import GalleryModal from '@/components/service/GalleryModal';
-import EstimateForm from '@/components/EstimateForm';
+
 import ReviewCard from '@/components/service/ReviewCard'; // Assuming this is used by ReviewSlider or ReviewSection
 import Link from 'next/link';
 import ReviewForm from '@/components/service/ReviewForm';
@@ -110,13 +117,12 @@ const priceDetails = [
 
 export default function ServicePageClient({ initialReviewsData }: ServicePageClientProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [isEstimateOpen, setIsEstimateOpen] = useState(false);
+
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   
   const [reviews, setReviews] = useState<Review[]>(initialReviewsData);
 
-  const openEstimate = () => setIsEstimateOpen(true);
-  const closeEstimate = () => setIsEstimateOpen(false);
+
   const openReviewForm = () => setIsReviewFormOpen(true);
 
   const handleNewReview = (reviewData: Omit<Review, 'id' | 'createdAt' | 'updatedAt'>) => {
@@ -147,32 +153,12 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
               특별한 순간을 더욱 특별하게,<br />돈키호테 푸드트럭
             </h1>
-            <button 
-              onClick={openEstimate}
-              className="bg-orange-500 text-white px-6 md:px-8 py-3 rounded-lg text-base md:text-lg font-semibold hover:bg-orange-600 transition-colors md:w-auto md:self-start"
-            >
-              행사 견적 문의하기
-            </button>
+
           </div>
         </div>
       </section>
 
-      {/* 견적문의 모달 */}
-      {isEstimateOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">견적 문의하기</h2>
-              <button onClick={closeEstimate} className="text-gray-500 hover:text-gray-700">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <EstimateForm />
-          </div>
-        </div>
-      )}
+
 
       {/* 핵심 서비스 섹션 */}
       <section className="py-12 md:py-16 bg-orange-50">
@@ -275,14 +261,7 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
                 </li>
               ))}
             </ul>
-            <div className="text-center mt-6 md:mt-8">
-              <button 
-                onClick={openEstimate}
-                className="bg-orange-500 text-white px-6 md:px-8 py-3 rounded-lg text-base md:text-lg font-semibold hover:bg-orange-600 transition-colors"
-              >
-                무료 견적 상담
-              </button>
-            </div>
+
           </div>
         </div>
       </section>
@@ -290,24 +269,7 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
       {/* 리뷰 섹션 */}
       <ReviewSection reviews={reviews} />
 
-      {/* 견적문의 섹션 */}
-      <section className="py-12 md:py-16 bg-orange-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            지금 바로 견적문의하세요
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            행사의 성격과 규모에 맞는 최적의 서비스를 제안해드립니다.
-            특별한 순간을 더욱 특별하게 만들어드리는 돈키호테 푸드트럭과 함께하세요.
-          </p>
-          <button 
-            onClick={openEstimate}
-            className="bg-orange-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-600 transition-colors"
-          >
-            견적문의하기
-          </button>
-        </div>
-      </section>
+
 
       {isReviewFormOpen && (
         <ReviewForm 

@@ -1,35 +1,53 @@
 'use client';
 
-import Link from 'next/link';
+import { useState } from 'react';
+import EstimateForm from '@/components/estimate/EstimateForm';
 
-export default function CTASection() {
+interface CTASectionProps {
+  className?: string;
+}
+
+export default function CTASection({ className }: CTASectionProps) {
+  const [isEstimateOpen, setIsEstimateOpen] = useState(false);
+
+  const openEstimate = () => setIsEstimateOpen(true);
+  const closeEstimate = () => setIsEstimateOpen(false);
+
   return (
-    <div className="relative w-full py-32 bg-gradient-to-r from-orange-100 to-orange-200 overflow-hidden">
-      {/* 배경 장식 요소 */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-orange-500/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
-      
-      <div className="container mx-auto px-4 relative">
-        <div className="text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
-            돈키호테와 함께<br />특별한 순간을 만들어보세요
+    <>
+      <section className={`py-12 md:py-16 bg-orange-50 ${className || ''}`}>
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            지금 바로 상담문의하세요
           </h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
-              href="/service"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-orange-500 rounded-full hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
-            >
-              서비스 소개서 받기
-            </Link>
-            <Link 
-              href="/estimate"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-900 transition-all duration-300 bg-transparent border-2 border-gray-900 rounded-full hover:text-orange-500 hover:border-orange-500"
-            >
-              1분 간단 무료 견적
-            </Link>
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            행사의 성격과 규모에 맞는 최적의 서비스를 제안해드립니다.
+            특별한 순간을 더욱 특별하게 만들어드리는 돈키호테 푸드트럭과 함께하세요.
+          </p>
+          <button
+            onClick={openEstimate}
+            className="bg-orange-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-600 transition-colors"
+          >
+            상담 문의하기
+          </button>
+        </div>
+      </section>
+
+      {isEstimateOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-start justify-center overflow-y-auto pt-20 pb-20">
+          <div className="relative bg-white rounded-lg p-6 w-full max-w-lg mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">상담 문의하기</h2>
+              <button onClick={closeEstimate} className="text-gray-500 hover:text-gray-700">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <EstimateForm />
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 } 

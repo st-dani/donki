@@ -69,52 +69,42 @@ export default function MenuClient() {
 
   return (
     <main className="min-h-screen">
-      {/* 히어로 섹션 */}
-      <section className="relative h-[80vh] flex items-center justify-center">
-        <div className="absolute inset-0">
+      {/* === 새로운 히어로 섹션 시작 === */}
+      <section className="relative bg-gray-900 py-24 overflow-hidden"> {/* 기본 어두운 배경으로 이미지 로딩 실패 시 대비 */}
+        <div className="absolute inset-0 z-0">
           <Image
-            src="/images/menu/hero-background.webp"
-            alt="돈키호테 푸드트럭 메뉴"
+            src="/images/menu/don-quixote-hero.png" // 요청하신 이미지
+            alt="돈키호테 메뉴 배경"
             fill
-            className="object-cover"
+            className="object-cover opacity-40" // 이미지 투명도 조절 (필요에 따라 30~60 사이로 조절)
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         </div>
-        <div className="container mx-auto px-4 relative z-10 text-white text-center max-w-5xl">
+        {/* 필요시 추가적인 어두운 오버레이 (텍스트 가독성을 더 높이기 위해) 
+        <div className="absolute inset-0 bg-black/30 z-0"></div> 
+        */} 
+        <div className="container mx-auto px-4 relative z-10 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold mb-8"
+            className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight"
+            style={{ textShadow: '0 2px 4px rgba(0,0,0,0.6)' }} // 텍스트 그림자로 가독성 향상
           >
-            푸드트럭의 새로운 기준
+            돈키호테 스페셜 메뉴
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-3xl font-medium mb-6 text-orange-300"
+            className="text-lg md:text-xl text-gray-100 max-w-3xl mx-auto"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }} // 텍스트 그림자로 가독성 향상
           >
-            맛있는 모험을 선사하는 돈키호테
+            푸드트럭에서 만나는 특별한 맛의 향연! 돈키호테가 자신있게 선보이는<br className="hidden sm:block" />다양한 메뉴들을 지금 바로 확인하세요.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed"
-          >
-            <p className="mb-4">
-              한식과 멕시칸의 창의적인 퓨전 요리부터<br />
-              추억의 분식과 프리미엄 핫도그까지
-            </p>
-            <p>
-              당신의 특별한 순간을<br className="md:hidden" />
-              더욱 특별하게 만들어드립니다
-            </p>
-          </motion.div>
         </div>
       </section>
+      {/* === 새로운 히어로 섹션 끝 === */}
 
       {/* 카테고리 목록 */}
       <section className="py-20">
@@ -124,10 +114,15 @@ export default function MenuClient() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center mb-16"
+            className="text-4xl md:text-5xl font-black text-gray-900 text-center"
           >
-            메뉴 카테고리
+            MENU
           </motion.h2>
+          <div className="flex justify-center mt-4 mb-16">
+            <span className="block h-1.5 w-10 bg-orange-500 rounded-full mx-1"></span>
+            <span className="block h-1.5 w-10 bg-orange-500 rounded-full mx-1"></span>
+            <span className="block h-1.5 w-10 bg-orange-500 rounded-full mx-1"></span>
+          </div>
           <div className="grid md:grid-cols-3 gap-8">
             {categories.map((category, index) => (
               <motion.div

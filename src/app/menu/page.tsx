@@ -1,17 +1,15 @@
-import MenuHero from '@/components/menu/MenuHero';
-import MenuCategories from '@/components/menu/MenuCategories';
-import MenuList from '@/components/menu/MenuList';
+import MenuPageClient from '@/components/menu/MenuPageClient';
 
 // 페이지 캐시 비활성화
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export default function MenuPage() {
+const MenuPage = () => {
   return (
     <main>
-      <MenuHero />
-      <MenuCategories />
-      <MenuList />
+      <MenuPageClient />
     </main>
   );
-} 
+};
+
+export default MenuPage;

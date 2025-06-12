@@ -18,14 +18,14 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-b from-orange-50 to-white text-black overflow-hidden">
+    <section className="relative z-0 min-h-screen bg-gradient-to-b from-orange-50 to-white text-black overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-gradient-radial from-orange-400/5 to-transparent opacity-70" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-orange-500/10 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 pt-32 pb-12 relative">
+      <div className="container mx-auto px-4 pt-48 pb-12 relative">
         <div className="flex flex-col lg:flex-row items-center lg:items-start min-h-[calc(100vh-180px)] gap-12">
           {/* Left: Text area */}
           <motion.div 
@@ -38,7 +38,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-orange-500 font-semibold tracking-wider mb-6"
+              className="text-black font-semibold tracking-wider mb-6"
             >
               PREMIUM FOOD TRUCK SERVICE
             </motion.p>
@@ -48,9 +48,8 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-5xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight"
             >
-              미식의 풍차,<br />
-              <span className="text-orange-500">돈키호테</span>와<br />
-              새로운 맛의 여정
+              <span className="text-orange-500">돈키호테</span><br />
+              새로운 맛의 여정!
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}

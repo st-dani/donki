@@ -7,7 +7,7 @@ const initialFormData: EstimateFormData = {
   name: '',
   phone: '',
   email: '',
-  eventType: '',
+  service: '',
   date: '',
   location: '',
   attendees: '',
@@ -30,14 +30,14 @@ export default function EstimateForm() {
       });
 
       if (!response.ok) {
-        throw new Error('견적 문의 전송에 실패했습니다.');
+        throw new Error('상담문의 전송에 실패했습니다.');
       }
 
-      alert('견적 문의가 성공적으로 전송되었습니다. 빠른 시일 내에 연락드리겠습니다.');
+      alert('상담문의가 성공적으로 전송되었습니다. 빠른 시일 내에 연락드리겠습니다.');
       setFormData(initialFormData);
     } catch (error) {
-      console.error('견적 문의 전송 중 오류:', error);
-      alert('견적 문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      console.error('상담문의 전송 중 오류:', error);
+      alert('상담문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
 
@@ -107,14 +107,14 @@ export default function EstimateForm() {
         <h2 className="text-2xl font-bold mb-6">행사 정보</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
-            <label htmlFor="eventType" className="block text-gray-700 font-medium mb-2">
+            <label htmlFor="service" className="block text-gray-700 font-medium mb-2">
               행사 종류 *
             </label>
             <select
-              id="eventType"
-              name="eventType"
+              id="service"
+              name="service"
               required
-              value={formData.eventType}
+              value={formData.service}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             >
@@ -192,7 +192,7 @@ export default function EstimateForm() {
           type="submit"
           className="bg-primary text-white px-8 py-4 rounded-full font-medium hover:bg-primary-dark transition-colors"
         >
-          견적 문의하기
+          상담 문의하기
         </button>
       </div>
     </form>

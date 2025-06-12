@@ -8,7 +8,7 @@ export interface EstimateFormData {
   name: string;
   phone: string;
   email: string;
-  eventType: string;
+  service: string;
   date: string;
   location: string;
   attendees: string;
