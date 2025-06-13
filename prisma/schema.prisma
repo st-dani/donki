@@ -42,7 +42,6 @@ model Menu {
   id          String       @id @default(cuid())
   name        String
   description String
-  price       Int
   category    MenuCategory
   tags        String[]
   image       String?

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { writeFile, unlink } from 'fs/promises';
 import { join } from 'path';
-import { MenuCategory } from '@prisma/client';
+import { MenuCategory } from '@/generated/prisma';
 
 // 특정 메뉴 조회 (GET)
 export async function GET(
@@ -74,12 +74,11 @@ export async function PATCH(
 
     const name = data.get('name') as string;
     const description = data.get('description') as string;
-    const price = Number(data.get('price'));
     const category = data.get('category') as MenuCategory;
     const tags = data.getAll('tags') as string[];
     const allergens = data.getAll('allergens') as string[];
 
-    if (!name || !description || isNaN(price) || !category) {
+    if (!name || !description || !category) {
       return NextResponse.json({ error: '필수 필드가 누락되었습니다.' }, { status: 400 });
     }
 
@@ -88,7 +87,6 @@ export async function PATCH(
       data: {
         name,
         description,
-        price,
         category,
         tags: tags || [],
         image: imagePath,

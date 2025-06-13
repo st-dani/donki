@@ -6,7 +6,6 @@ import { useToast } from '@/components/ui/use-toast';
 interface MenuItem {
   id: string;
   name: string;
-  price: number;
 }
 
 interface OrderItem {

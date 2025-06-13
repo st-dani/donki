@@ -78,9 +78,6 @@ export default function MenuModal({ item, isOpen, onClose }: MenuModalProps) {
                         {item.description}
                       </p>
                     </div>
-                    <span className="text-2xl font-bold text-orange-500">
-                      {item.price.toLocaleString()}원
-                    </span>
                   </div>
 
                   {/* 태그 섹션 */}

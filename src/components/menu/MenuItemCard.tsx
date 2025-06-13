@@ -6,10 +6,9 @@ import { MenuItem } from '@/types/menu';
 
 interface MenuItemCardProps {
   item: MenuItem;
-  showPrice?: boolean; // 가격 표시 여부를 위한 prop 추가
 }
 
-const MenuItemCard = ({ item, showPrice = true }: MenuItemCardProps) => (
+const MenuItemCard = ({ item }: MenuItemCardProps) => (
   <motion.div
     layout
     initial={{ opacity: 0, scale: 0.8 }}
@@ -40,11 +39,6 @@ const MenuItemCard = ({ item, showPrice = true }: MenuItemCardProps) => (
       <h3 className="text-lg font-bold truncate">{item.name}</h3>
       <p className="text-sm text-gray-500 mb-2 truncate">{item.nameEn}</p>
       <p className="text-sm text-gray-700 mb-4 h-10 overflow-hidden">{item.description}</p>
-      {showPrice && (
-        <div className="text-right text-lg font-black text-red-600">
-          {item.price.toLocaleString()}원
-        </div>
-      )}
     </div>
   </motion.div>
 );

@@ -42,12 +42,11 @@ export async function POST(request: Request) {
 
     const name = data.get('name') as string;
     const description = data.get('description') as string;
-    const price = Number(data.get('price'));
     const category = data.get('category') as string;
     const tags = data.getAll('tags') as string[];
     const allergens = data.getAll('allergens') as string[];
 
-    if (!name || !description || isNaN(price) || !category) {
+    if (!name || !description || !category) {
       return NextResponse.json({ error: '필수 필드가 누락되었습니다.' }, { status: 400 });
     }
 
@@ -55,7 +54,6 @@ export async function POST(request: Request) {
       data: {
         name,
         description,
-        price,
         category: category as any, // Enum 타입 임시 처리
         tags: tags || [],
         image: imagePath,

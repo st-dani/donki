@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import MenuModal from '@/components/MenuModal';
+import { MenuCategory } from '@/generated/prisma';
+import MenuModal from '../menus/MenuModal';
 
 interface Menu {
   id: string;
   name: string;
   description: string;
-  price: number;
-  imageUrl: string;
-  category: string;
+  imageUrl?: string | null;
+  category: MenuCategory;
   isRecommended: boolean;
   isAvailable: boolean;
+  tags: string[];
+  allergens: string[];
 }
 
 interface MenuListProps {
@@ -134,13 +136,19 @@ export default function MenuList({ initialMenus }: MenuListProps) {
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0">
-                          <Image
-                            width={40}
-                            height={40}
-                            className="h-10 w-10 rounded-full object-cover"
-                            src={menu.imageUrl}
-                            alt={menu.name}
-                          />
+                          {menu.imageUrl ? (
+                            <Image
+                              src={menu.imageUrl}
+                              alt={menu.name}
+                              width={50}
+                              height={50}
+                              className="rounded-md object-cover"
+                            />
+                          ) : (
+                            <div className="w-[50px] h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-xs text-gray-500">
+                              No Image
+                            </div>
+                          )}
                         </div>
                         <div className="ml-4">
                           <div className="font-medium text-gray-900">
@@ -152,9 +160,6 @@ export default function MenuList({ initialMenus }: MenuListProps) {
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {menu.category}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {menu.price.toLocaleString()}원
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {menu.isRecommended ? '✓' : '-'}
@@ -199,7 +204,7 @@ export default function MenuList({ initialMenus }: MenuListProps) {
           setIsModalOpen(false);
           setSelectedMenu(undefined);
         }}
-        menu={selectedMenu}
+        initialData={selectedMenu}
         onSave={handleSave}
       />
     </div>

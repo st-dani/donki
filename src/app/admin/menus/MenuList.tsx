@@ -45,7 +45,7 @@ export default function MenuList({ initialMenus }: MenuListProps) {
     setLoading(false);
   };
 
-  const handleSave = async (menuData: Omit<MenuItemData, 'id' | 'price'> & { price: number; imageUrl?: string | null }) => {
+  const handleSave = async (menuData: Omit<MenuItemData, 'id'> & { imageUrl?: string | null }) => {
     setLoading(true);
     const method = editingMenu ? 'PUT' : 'POST';
     const url = '/api/menu';
@@ -111,7 +111,6 @@ export default function MenuList({ initialMenus }: MenuListProps) {
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">이미지</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">이름</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">설명</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">가격</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">카테고리</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">태그</th>
               <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">관리</th>
@@ -125,7 +124,6 @@ export default function MenuList({ initialMenus }: MenuListProps) {
                 </td>
                 <td className="py-3 px-4 font-medium">{menu.name}</td>
                 <td className="py-3 px-4 text-sm max-w-xs truncate">{menu.description}</td>
-                <td className="py-3 px-4">{menu.price.toLocaleString()}원</td>
                 <td className="py-3 px-4">{menu.category}</td>
                 <td className="py-3 px-4">
                   {menu.tags.map((tag: string) => (

@@ -85,9 +85,6 @@ export default function MenuCard({ item }: MenuCardProps) {
           </div>
           <p className="text-gray-600 text-sm mb-4">{item.description}</p>
           <div className="flex items-center justify-between">
-            <span className="text-lg font-bold text-orange-500">
-              {item.price.toLocaleString()}원
-            </span>
             {item.allergens && item.allergens.length > 0 && (
               <div className="text-xs text-gray-500">
                 알레르기: {item.allergens.join(', ')}

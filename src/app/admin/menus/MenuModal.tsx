@@ -11,7 +11,6 @@ export interface MenuItemData {
   id?: string;
   name: string;
   description: string;
-  price: string | number; // 입력 시 string, 저장 시 number
   category: MenuCategory;
   tags: string[];
   allergens: string[];
@@ -22,7 +21,7 @@ interface MenuModalProps {
   isOpen: boolean;
   onClose: () => void;
   // onSave 콜백의 타입을 명확히 합니다. API 요청에 필요한 데이터만 전달하고, 성공/실패 처리는 부모에서 하도록 유도할 수 있습니다.
-  onSave: (menu: Omit<MenuItemData, 'id' | 'price'> & { price: number; imageUrl?: string | null }) => Promise<void>; 
+  onSave: (menu: Omit<MenuItemData, 'id'> & { imageUrl?: string | null }) => Promise<void>; 
   initialData?: MenuItemData | null; // 수정 시 초기 데이터
 }
 
@@ -32,7 +31,6 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onSave, initialD
     if (initialData) {
       return {
         ...initialData,
-        price: initialData.price?.toString() || '0', // 가격을 문자열로 변환, 없으면 '0'
         tags: initialData.tags || [],
         allergens: initialData.allergens || [],
         imageUrl: initialData.imageUrl || null,
@@ -42,7 +40,6 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onSave, initialD
     return {
       name: '',
       description: '',
-      price: '0',
       category: Object.values(MenuCategory)[0] as MenuCategory, // 첫 번째 카테고리를 기본값으로
       tags: [],
       allergens: [],
@@ -75,19 +72,12 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onSave, initialD
       const menuToSave = {
         name: menu.name,
         description: menu.description,
-        price: parseFloat(menu.price as string), // 가격을 숫자로 변환
         category: menu.category,
         tags: tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
         allergens: allergensInput.split(',').map(allergen => allergen.trim()).filter(allergen => allergen !== ''),
         imageUrl: menu.imageUrl || null, // imageUrl 추가
       };
       
-      if (isNaN(menuToSave.price)) {
-        alert('가격은 숫자로 입력해주세요.');
-        setIsLoading(false);
-        return;
-      }
-
       await onSave(menuToSave);
       // 성공 시 모달 닫기는 onSave 콜백을 호출한 부모 컴포넌트에서 처리하는 것이 더 유연할 수 있습니다.
       // onClose(); 
@@ -123,10 +113,6 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onSave, initialD
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
-            <div>
-              <label htmlFor="price" className="block text-sm font-semibold text-gray-700 mb-1.5">가격 <span className="text-red-500">*</span></label>
-              <input type="number" name="price" id="price" value={menu.price} onChange={handleInputChange} className="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-shadow duration-200 ease-in-out hover:shadow-md" placeholder="예: 10000" required />
-            </div>
             <div>
               <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-1.5">카테고리 <span className="text-red-500">*</span></label>
               <select name="category" id="category" value={menu.category} onChange={handleInputChange} className="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white transition-shadow duration-200 ease-in-out hover:shadow-md" required>
