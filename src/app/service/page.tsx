@@ -2,6 +2,9 @@ import { prisma } from '@/lib/prisma';
 import ServicePageClient from '@/components/service/ServicePageClient';
 import { Review, ServiceGallery } from '../../generated/prisma';
 
+// 정적 생성 비활성화 - 빌드 시 데이터베이스 접근 방지
+export const dynamic = 'force-dynamic';
+
 // Define Review type for data passed to client - dates are serialized
 interface ReviewForClient {
   id: string;

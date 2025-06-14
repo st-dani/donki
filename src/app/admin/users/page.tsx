@@ -2,6 +2,9 @@ import { prisma } from '@/lib/prisma';
 import UserClient from '@/components/admin/users/UserClient';
 import type { Admin } from '@/generated/prisma';
 
+// 정적 생성 비활성화 - 빌드 시 데이터베이스 접근 방지
+export const dynamic = 'force-dynamic';
+
 // 클라이언트 컴포넌트로 전달하기 위해 Date 객체를 string으로 변환한 타입
 export type SerializableAdmin = Omit<Admin, 'password' | 'createdAt' | 'updatedAt'> & {
   createdAt: string;

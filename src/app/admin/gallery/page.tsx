@@ -2,6 +2,9 @@ import { Suspense } from 'react';
 import { prisma } from '@/lib/prisma';
 import GalleryClient from './GalleryClient';
 
+// 정적 생성 비활성화 - 빌드 시 데이터베이스 접근 방지
+export const dynamic = 'force-dynamic';
+
 export default async function GalleryPage() {
   // DB에서 갤러리 항목 가져오기
   const galleryItems = await prisma.serviceGallery.findMany({

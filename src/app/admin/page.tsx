@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { EstimateStatus } from '@/generated/prisma';
 import AdminDashboard, { DashboardData } from './dashboard/AdminDashboard';
 
+// 정적 생성 비활성화 - 빌드 시 데이터베이스 접근 방지
+export const dynamic = 'force-dynamic';
+
 // 대시보드 페이지
 export default async function AdminPage() {
   // 대시보드 데이터 수집
