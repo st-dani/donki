@@ -3,7 +3,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  imageUploader: f({ image: { maxFileSize: "7MB" } })
+  imageUploader: f({ image: { maxFileSize: "8MB" } })
     .middleware(async () => {
       return { uploadedBy: "admin" };
     })
