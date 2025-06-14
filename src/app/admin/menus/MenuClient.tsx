@@ -1,10 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import { Menu, MenuCategory } from '@/generated/prisma';
 import MenuModal, { type MenuItemData } from './MenuModal';
 
-type SerializedMenu = Omit<Menu, 'createdAt' | 'updatedAt'> & {
+// MenuCategory enum 직접 정의
+enum MenuCategory {
+  MAIN = 'MAIN',
+  SIDE = 'SIDE',
+  DESSERT = 'DESSERT',
+  BEVERAGE = 'BEVERAGE'
+}
+
+// 서버에서 받아온 메뉴 타입 정의
+type SerializedMenu = {
+  id: string;
+  name: string;
+  nameEn: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+  isPublished: boolean;
+  tags: string[];
+  allergens: string[];
   createdAt: string;
   updatedAt: string;
 };
@@ -253,6 +271,7 @@ export default function MenuClient({ initialMenus }: MenuClientProps) {
         initialData={editingMenu ? {
           id: editingMenu.id,
           name: editingMenu.name,
+          nameEn: editingMenu.nameEn || '', // nameEn 추가 (없을 경우 빈 문자열로 처리)
           description: editingMenu.description,
           category: editingMenu.category as MenuCategory,
           tags: editingMenu.tags,
