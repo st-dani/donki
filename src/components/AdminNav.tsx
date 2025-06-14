@@ -29,9 +29,9 @@ export default function AdminNav() {
                   대시보드
                 </Link>
                 <Link
-                  href="/admin/menu"
+                  href="/admin/menus"
                   className={`${isActive(
-                    '/admin/menu'
+                    '/admin/menus'
                   )} text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
                 >
                   메뉴 관리

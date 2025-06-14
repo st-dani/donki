@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { hash } from 'bcryptjs';
+import * as crypto from 'crypto';
 import { Role } from '@/generated/prisma';
+
+// 비밀번호 해싱 함수 (복호화)
+function hashPassword(password: string): string {
+  return crypto.createHash('sha256').update(password).digest('hex');
+}
 
 // GET: 모든 관리자 조회
 export async function GET() {
@@ -43,7 +48,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Admin with this email already exists' }, { status: 409 });
     }
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = hashPassword(password);
 
     const newAdmin = await prisma.admin.create({
       data: {

@@ -5,9 +5,9 @@ export default function NavLogo() {
   return (
     <Link 
       href="/" 
-      className="group hover:opacity-80 transition-opacity"
+      className="inline-block transition-transform duration-300 hover:translate-x-1"
     >
       <Logo />
     </Link>
   );
-} 
+}

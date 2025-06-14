@@ -1,18 +1,79 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { menuFilterCategories, menuSections, menuItems } from '@/types/menu';
+import { menuFilterCategories, menuSections } from '@/types/menu';
+import { MenuItem } from '@/types/menu'; // 타입만 가져오기
 import MenuItemCard from './MenuItemCard'; // 분리된 카드 컴포넌트 import
 
 const MenuPageClient = () => {
+  // 서버에서 가져온 메뉴 데이터 상태
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // API에서 메뉴 데이터 가져오기
+  useEffect(() => {
+    const fetchMenus = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/menu');
+        
+        if (!response.ok) {
+          throw new Error('메뉴를 가져오는데 문제가 발생했습니다');
+        }
+        
+        // API에서 받은 메뉴 데이터 처리
+        const originalData = await response.json();
+        
+        // 로그로 확인
+        console.log('원본 API 데이터:', originalData);
+        
+        // 카테고리 데이터 전처리 및 특수 케이스 처리
+        const processedData = originalData.map((item: any) => {
+          // 카테고리 슬러그 처리
+          let categorySlug = item.categorySlug;
+          
+          // categorySlug가 없으면 category에서 자동 생성
+          if (!categorySlug && item.category) {
+            categorySlug = item.category.toLowerCase().replace('_', '-');
+          }
+          
+          // 데이터가 준비되었음을 확인
+          const result = {
+            ...item,
+            categorySlug,
+          };
+          
+          return result;
+        });
+        
+        // 특정 항목 확인
+        const kimbap = processedData.find((item: MenuItem) => item.name === '김밥');
+        const jjajangmyeon = processedData.find((item: MenuItem) => item.name === '짜장면');
+        console.log('김밥 메뉴 데이터:', kimbap);
+        console.log('짜장면 메뉴 데이터:', jjajangmyeon);
+        
+        // 전체 메뉴를 상태로 세팅
+        setMenuItems(processedData);
+        setError(null);
+      } catch (err) {
+        console.error('메뉴 로드 오류:', err);
+        setError('메뉴를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchMenus();
+  }, []); // 컴포넌트 마운트 시 한 번만 실행
 
   return (
     <>
       {/* === 새로운 히어로 섹션 시작 === */}
-      <section className="relative bg-gray-900 py-24 overflow-hidden"> {/* 기본 어두운 배경으로 이미지 로딩 실패 시 대비 */}
+      <section className="relative bg-gray-900 overflow-hidden h-[300px]"> {/* 기본 어두운 배경으로 이미지 로딩 실패 시 대비 */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/menu/don-quixote-hero.png" // 요청하신 이미지
@@ -22,7 +83,7 @@ const MenuPageClient = () => {
             priority
           />
         </div>
-        <div className="container mx-auto px-4 relative z-10 text-center">
+        <div className="container mx-auto px-4 relative z-10 text-center flex flex-col justify-center h-full">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -45,7 +106,28 @@ const MenuPageClient = () => {
       </section>
       {/* === 새로운 히어로 섹션 끝 === */}
 
-      <div className="container mx-auto px-4 py-8 md:py-16">
+      <div className="container mx-auto px-4 py-8 md:py-16">        
+        {/* 로딩 상태 */}
+        {loading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
+            <span className="ml-3 text-lg">메뉴를 불러오는 중...</span>
+          </div>
+        )}
+        
+        {/* 오류 상태 */}
+        {error && !loading && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-8" role="alert">
+            <p className="font-bold">오류 발생</p>
+            <p>{error}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-4 rounded"
+            >
+              다시 시도
+            </button>
+          </div>
+        )}
         {/* Category Filters */}
         <div className="flex justify-center flex-wrap gap-2 md:gap-4 mb-12">
           {menuFilterCategories.map((category) => {
@@ -123,7 +205,36 @@ const MenuPageClient = () => {
         {/* Menu Sections and Items */}
         <div className="space-y-16">
           {menuSections.map((section) => {
-            const displayItems = menuItems.filter(item => item.category === section.id);
+            let displayItems: MenuItem[] = [];
+            
+            if (section.id === 'all') {
+              // 전체 메뉴 표시
+              displayItems = [...menuItems];
+            } else {
+              // 해당 섹션에 맞는 메뉴만 필터링
+              displayItems = menuItems.filter((item: MenuItem) => {
+                // 특별 예외처리: 김밥은 무조건 분식 카테고리에 표시
+                if (section.id === 'bunsik' && item.name === '김밥') {
+                  return true;
+                }
+                
+                // 짜장면은 식사(meals) 카테고리에 표시
+                if (section.id === 'meals' && item.name === '짜장면') {
+                  return true;
+                }
+                
+                // 일반적인 경우: categorySlug가 섹션 ID와 일치할 경우에만 표시
+                return item.categorySlug === section.id;
+              });
+            }
+            
+            // 개발용 디버깅 로그 - 분식 카테고리
+            if (section.id === 'bunsik') {
+              const names = displayItems.map(item => item.name);
+              console.log('분식 카테고리 해결 후 출력되는 아이템들:', names);
+              const kimbapItem = displayItems.find(item => item.name === '김밥');
+              console.log('분식에 김밥이 포함되어 있는지:', !!kimbapItem);
+            }
 
             if (displayItems.length === 0) return null;
 
@@ -135,7 +246,7 @@ const MenuPageClient = () => {
                 </div>
                 <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                   {displayItems.map(item => (
-                    <MenuItemCard key={item.id} item={item} showPrice={false} />
+                    <MenuItemCard key={item.id} item={item} />
                   ))}
                 </motion.div>
               </section>

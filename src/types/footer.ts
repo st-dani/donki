@@ -5,6 +5,8 @@ export interface CompanyInfo {
   address: string;
   phone: string;
   email: string;
+  center?: string;
+  onlineBusinessNumber?: string;
 }
 
 export interface FooterLink {

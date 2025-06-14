@@ -26,7 +26,7 @@ export default function CTASection({ className }: CTASectionProps) {
           </p>
           <button
             onClick={openEstimate}
-            className="bg-orange-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-600 transition-colors"
+            className="bg-orange-500 text-white px-10 py-4 rounded-full text-lg font-semibold hover:bg-orange-600 transition-all duration-300 shadow-md hover:shadow-xl hover:transform hover:-translate-y-1"
           >
             상담 문의하기
           </button>

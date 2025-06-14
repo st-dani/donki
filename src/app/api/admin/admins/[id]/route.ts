@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { hash } from 'bcryptjs';
+import * as crypto from 'crypto';
 import { Role } from '@/generated/prisma';
+
+// 비밀번호 해싱 함수
+function hashPassword(password: string): string {
+  return crypto.createHash('sha256').update(password).digest('hex');
+}
 
 // GET: 특정 관리자 조회 (필요 시 구현)
 
@@ -18,7 +23,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     if (role) dataToUpdate.role = role as Role;
 
     if (password) {
-      dataToUpdate.password = await hash(password, 10);
+      dataToUpdate.password = hashPassword(password);
     }
 
     if (Object.keys(dataToUpdate).length === 0) {

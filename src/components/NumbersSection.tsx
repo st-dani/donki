@@ -93,12 +93,12 @@ interface NumbersSectionProps {
 
 export default function NumbersSection({ className }: NumbersSectionProps) {
   return (
-    <section className={`py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden ${className || ''}`}>
+    <section className={`py-24 bg-white relative overflow-hidden ${className || ''}`}>
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-gradient-radial from-orange-100/20 to-transparent opacity-70" />
-        <div className="absolute -top-1/2 left-0 w-96 h-96 bg-orange-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
-        <div className="absolute -bottom-1/2 right-0 w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-white opacity-70" />
+        <div className="absolute -top-1/2 left-0 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
+        <div className="absolute -bottom-1/2 right-0 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
       </div>
 
       <div className="container mx-auto px-4 relative">
@@ -125,7 +125,7 @@ export default function NumbersSection({ className }: NumbersSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 relative group text-center hover:from-orange-100 hover:to-orange-50"
+              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 relative group text-center hover:bg-gray-50"
             >
               <div className="relative">
                 <h3 className="text-gray-600 mb-4 font-medium">{stat.label}</h3>

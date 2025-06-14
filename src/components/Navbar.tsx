@@ -18,7 +18,7 @@ export default function Navbar() {
           {/* 로고 */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/images/logo/logo.png"
+              src="/images/logo/donkilogo.svg"
               alt="돈키호테 푸드트럭"
               width={40}
               height={40}

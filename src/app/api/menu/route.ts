@@ -5,30 +5,43 @@ import { MenuCategory } from '@/generated/prisma';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, price, category, tags, allergens, imageUrl } = body;
+    const { name, nameEn, description, category, tags, allergens, imageUrl } = body;
 
-    if (!name || !description || price === undefined || !category) {
-      return NextResponse.json({ error: '필수 필드가 누락되었습니다: name, description, price, category' }, { status: 400 });
+    if (!name || !description || !category) {
+      return NextResponse.json({ error: '필수 필드가 누락되었습니다: name, description, category' }, { status: 400 });
     }
+    
+    // nameEn이 없으면 빈 문자열로 설정(선택적 필드)
 
-    const numericPrice = parseFloat(String(price)); // Ensure price is treated as string before parseFloat
-    if (isNaN(numericPrice)) {
-      return NextResponse.json({ error: '가격은 숫자여야 합니다.' }, { status: 400 });
-    }
-
-    if (!Object.values(MenuCategory).includes(category as MenuCategory)) {
+    // 유효한 카테고리인지 확인
+    const validCategories = ['BUNSIK', 'MEALS', 'DRINKS', 'HOTDOGS_BURGERS', 'SNACKS', 'DESSERTS'];
+    if (!validCategories.includes(category)) {
         return NextResponse.json({ error: `잘못된 카테고리입니다: ${category}` }, { status: 400 });
     }
+    
+    // CategorySlug 자동 생성
+    const getCategorySlug = (category: string): string => {
+      const slugMap: Record<string, string> = {
+        'BUNSIK': 'bunsik',
+        'MEALS': 'meals',
+        'DRINKS': 'drinks',
+        'HOTDOGS_BURGERS': 'hotdogs-burgers',
+        'SNACKS': 'snacks',
+        'DESSERTS': 'desserts'
+      };
+      return slugMap[category] || category.toLowerCase().replace('_', '-');
+    };
 
     const newMenu = await prisma.menu.create({
       data: {
         name,
+        nameEn: nameEn || '', // nameEn이 없으면 빈 문자열로 설정
         description,
-        price: numericPrice,
         category: category as MenuCategory,
+        categorySlug: getCategorySlug(category),
         tags: tags || [],
         allergens: allergens || [],
-        imageUrl: imageUrl || null,
+        image: imageUrl || '/images/menu/default-menu.jpg',
       },
     });
 
@@ -54,7 +67,10 @@ export async function GET() {
         createdAt: 'desc',
       },
     });
+    
+    // 데이터를 있는 그대로 반환
     return NextResponse.json(menus);
+
   } catch (error: any) {
     console.error('메뉴 조회 오류 상세:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -71,42 +87,48 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { id, name, description, price, category, tags, allergens, imageUrl } = body;
+    const { id, name, nameEn, description, category, tags, allergens, imageUrl } = body;
 
     if (!id) {
       return NextResponse.json({ error: '메뉴 ID가 누락되었습니다.' }, { status: 400 });
     }
 
-    const updateData: {
-        name?: string;
-        description?: string;
-        price?: number;
-        category?: MenuCategory;
-        tags?: string[];
-        allergens?: string[];
-        imageUrl?: string | null;
-    } = {};
+    // 메뉴 업데이트용 데이터 객체 생성
+    const updateData: any = {};
+
+    // CategorySlug 자동 생성 함수
+    const getCategorySlug = (category: string): string => {
+      const slugMap: Record<string, string> = {
+        'BUNSIK': 'bunsik',
+        'MEALS': 'meals',
+        'DRINKS': 'drinks',
+        'HOTDOGS_BURGERS': 'hotdogs-burgers',
+        'SNACKS': 'snacks',
+        'DESSERTS': 'desserts'
+      };
+      return slugMap[category] || category.toLowerCase().replace('_', '-');
+    };
 
     if (name !== undefined) {
         if (String(name).trim() === '') return NextResponse.json({ error: '이름은 비워둘 수 없습니다.' }, { status: 400 });
         updateData.name = String(name);
     }
+    // nameEn은 선택적 필드로 처리
+    if (nameEn !== undefined) {
+        // 빈 문자열이라도 허용 (선택적 필드로 변경)
+        updateData.nameEn = String(nameEn);
+    }
     if (description !== undefined) {
         if (String(description).trim() === '') return NextResponse.json({ error: '설명은 비워둘 수 없습니다.' }, { status: 400 });
         updateData.description = String(description);
     }
-    if (price !== undefined) {
-        const numericPrice = parseFloat(String(price));
-        if (isNaN(numericPrice)) {
-            return NextResponse.json({ error: '가격은 숫자여야 합니다.' }, { status: 400 });
-        }
-        updateData.price = numericPrice;
-    }
     if (category !== undefined) {
-        if (!Object.values(MenuCategory).includes(category as MenuCategory)) {
+        const validCategories = ['BUNSIK', 'MEALS', 'DRINKS', 'HOTDOGS_BURGERS', 'SNACKS', 'DESSERTS'];
+        if (!validCategories.includes(category)) {
             return NextResponse.json({ error: `잘못된 카테고리입니다: ${category}` }, { status: 400 });
         }
         updateData.category = category as MenuCategory;
+        updateData.categorySlug = getCategorySlug(category);
     }
     if (tags !== undefined) {
         if (!Array.isArray(tags)) return NextResponse.json({ error: '태그는 배열이어야 합니다.' }, { status: 400 });
@@ -116,10 +138,10 @@ export async function PUT(request: Request) {
         if (!Array.isArray(allergens)) return NextResponse.json({ error: '알레르기 정보는 배열이어야 합니다.' }, { status: 400 });
         updateData.allergens = allergens.map(allergen => String(allergen).trim()).filter(allergen => allergen !== '');
     }
-    // imageUrl can be explicitly set to null to clear it, or a new string to update it.
-    // If imageUrl is not in the request body (i.e., undefined), it won't be part of updateData.
+    // imageUrl 필드를 image로 변경
     if (Object.prototype.hasOwnProperty.call(body, 'imageUrl')) {
-        updateData.imageUrl = imageUrl === null ? null : String(imageUrl);
+        // null은 기본 이미지로 처리하고, 항상 문자열로 처리
+        updateData.image = imageUrl ? String(imageUrl) : '/images/menu/default-menu.jpg';
     }
     
     if (Object.keys(updateData).length === 0) {

@@ -18,11 +18,11 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative z-0 min-h-screen bg-gradient-to-b from-orange-50 to-white text-black overflow-hidden">
+    <section className="relative z-0 min-h-screen bg-white text-black overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-gradient-radial from-orange-400/5 to-transparent opacity-70" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-orange-500/10 to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-white opacity-70" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 pt-48 pb-12 relative">
@@ -92,7 +92,7 @@ export default function Hero() {
             <div className="relative w-full pt-[56.25%] group">
               {/* Border effect */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-orange-500 to-orange-300/20 p-0.5 shadow-2xl">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden bg-gray-100">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden bg-white">
                   {/* Video */}
                   <video 
                     className="absolute inset-0 w-full h-full object-cover scale-[1.01] group-hover:scale-[1.02] transition-transform duration-700"

@@ -16,6 +16,7 @@ export type SerializedEstimate = {
   location: string;
   attendees: number;
   details: string | null;
+  adminNotes: string | null;
   status: EstimateStatus;
   createdAt: string; // Serialized from DateTime
   updatedAt: string; // Serialized from DateTime
@@ -186,6 +187,15 @@ export default function EstimateList({ initialEstimates }: EstimateListProps) {
           estimate={selectedEstimate}
           onStatusChange={handleStatusChange}
           onDelete={handleDelete}
+          onUpdateEstimate={(updatedEstimate) => {
+            // 메모가 업데이트되었을 때 목록 상태도 함께 업데이트
+            setEstimates((prev) =>
+              prev.map((est) => (est.id === updatedEstimate.id ? updatedEstimate : est))
+            );
+            
+            // 모달에 표시 중인 견적 데이터도 업데이트
+            setSelectedEstimate(updatedEstimate);
+          }}
         />
       )}
     </>

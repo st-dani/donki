@@ -74,7 +74,7 @@ export default function Introduction() {
         </div>
         <div className="relative max-w-[1920px] mx-auto px-4 md:px-8 h-full flex items-center">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 overflow-hidden">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 overflow-hidden bg-gradient-to-r from-orange-600 via-orange-500 to-orange-200 text-transparent bg-clip-text inline-block">
               <div className="flex flex-row flex-wrap">
                 {['STORY', 'OF', 'US'].map((word, wordIndex) => (
                   <motion.span
@@ -108,14 +108,14 @@ export default function Introduction() {
                 ))}
               </div>
             </h1>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl text-orange-200 mb-8">
               특별한 순간을 더욱 특별하게 만드는 프리미엄 푸드트럭 서비스
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-white">
         <div className="max-w-[1920px] mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="flex-1 text-left">
@@ -256,7 +256,7 @@ export default function Introduction() {
   </div>
 </section>
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-white">
         <div className="max-w-[1920px] mx-auto px-4 md:px-8">
           <div className="flex flex-col items-center mb-16">
             <h2 className="text-4xl font-bold mb-8 text-center">
@@ -321,35 +321,86 @@ export default function Introduction() {
         </div>
       </section>
 
-      <section className="py-24">
+      <section className="py-24 bg-white">
         <div className="max-w-[1920px] mx-auto px-4 md:px-8">
-          <h2 className="text-4xl font-bold text-center mb-16">
-            자주 묻는 질문
-          </h2>
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold mb-4">서비스 지역은 어디인가요?</h3>
-              <p className="text-gray-600">
-                전국 어디든 서비스가 가능합니다. 단, 지역에 따라 추가 비용이 발생할 수 있습니다.
-              </p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold inline-block relative">
+              <span className="relative z-10">자주 묻는 질문</span>
+              <span className="absolute -bottom-2 left-0 w-full h-3 bg-theme-orange-200 opacity-50 z-0"></span>
+            </h2>
+          </div>
+          
+          <div className="max-w-4xl mx-auto space-y-8">
+            {/* FAQ 아이템 1 */}
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">Q</span>
+                </div>
+                <h3 className="text-xl font-bold">서비스 지역은 어디인가요?</h3>
+              </div>
+              <div className="flex items-start mt-4 ml-2 opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all duration-300">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold">A</span>
+                </div>
+                <p className="text-gray-700 pt-1">
+                  전국 어디든 서비스가 가능합니다. 단, 지역에 따라 추가 비용이 발생할 수 있습니다.
+                </p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold mb-4">최소 인원은 몇 명인가요?</h3>
-              <p className="text-gray-600">
-                최소 50인 이상부터 서비스가 가능합니다. 단, 행사의 성격에 따라 조정될 수 있습니다.
-              </p>
+            
+            {/* FAQ 아이템 2 */}
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">Q</span>
+                </div>
+                <h3 className="text-xl font-bold">최소 인원은 몇 명인가요?</h3>
+              </div>
+              <div className="flex items-start mt-4 ml-2 opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all duration-300">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold">A</span>
+                </div>
+                <p className="text-gray-700 pt-1">
+                  최소 50인 이상부터 서비스가 가능합니다. 단, 행사의 성격에 따라 조정될 수 있습니다.
+                </p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold mb-4">예약은 언제까지 해야 하나요?</h3>
-              <p className="text-gray-600">
-                행사 2주 전까지 예약을 완료해 주시면 됩니다. 급한 행사의 경우 별도로 문의해 주세요.
-              </p>
+            
+            {/* FAQ 아이템 3 */}
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">Q</span>
+                </div>
+                <h3 className="text-xl font-bold">예약은 언제까지 해야 하나요?</h3>
+              </div>
+              <div className="flex items-start mt-4 ml-2 opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all duration-300">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold">A</span>
+                </div>
+                <p className="text-gray-700 pt-1">
+                  행사 2주 전까지 예약을 완료해 주시면 됩니다. 급한 행사의 경우 별도로 문의해 주세요.
+                </p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold mb-4">메뉴 변경이 가능한가요?</h3>
-              <p className="text-gray-600">
-                네, 가능합니다. 행사의 성격과 고객님의 요구사항에 맞춰 메뉴 구성을 변경할 수 있습니다.
-              </p>
+            
+            {/* FAQ 아이템 4 */}
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">Q</span>
+                </div>
+                <h3 className="text-xl font-bold">메뉴 변경이 가능한가요?</h3>
+              </div>
+              <div className="flex items-start mt-4 ml-2 opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all duration-300">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center mr-4">
+                  <span className="text-white font-bold">A</span>
+                </div>
+                <p className="text-gray-700 pt-1">
+                  네, 가능합니다. 행사의 성격과 고객님의 요구사항에 맞춰 메뉴 구성을 변경할 수 있습니다.
+                </p>
+              </div>
             </div>
           </div>
         </div>

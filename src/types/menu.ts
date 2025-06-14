@@ -4,13 +4,15 @@ export interface MenuItem {
   nameEn: string;
   description: string;
   image: string;
-  category: string; // Corresponds to the section id
+  category: string; // Enum 값 (BUNSIK, MEALS 등)
+  categorySlug?: string; // 화면 표시용 슬러그 (bunsik, meals 등)
   tags?: ('NEW' | 'BEST' | 'MD추천')[];
   isPopular?: boolean;
   spicyLevel?: number;
   isNew?: boolean;
   isVegetarian?: boolean;
   allergens?: string[];
+  imageUrl?: string; // 후용성을 위해 image와 동일한 데이터를 가질 수 있는 필드
 }
 
 export interface MenuCategory { // This is for filter buttons

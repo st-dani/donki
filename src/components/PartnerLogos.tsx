@@ -22,12 +22,12 @@ interface PartnerLogosProps {
 
 export default function PartnerLogos({ className }: PartnerLogosProps) {
   return (
-    <section className={`pt-4 pb-2 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden ${className || ''}`} style={{ minHeight: 'auto' }}>
+    <section className={`pt-4 pb-2 bg-white relative overflow-hidden ${className || ''}`} style={{ minHeight: 'auto' }}>
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-gradient-radial from-orange-100/20 to-transparent opacity-70" />
-        <div className="absolute -top-1/2 left-0 w-96 h-96 bg-orange-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
-        <div className="absolute -bottom-1/2 right-0 w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] bg-white opacity-70" />
+        <div className="absolute -top-1/2 left-0 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
+        <div className="absolute -bottom-1/2 right-0 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-30" />
       </div>
 
       <div className="container mx-auto px-2 relative z-10">
@@ -36,7 +36,7 @@ export default function PartnerLogos({ className }: PartnerLogosProps) {
         </h2>
       </div>
 
-      <div className="relative overflow-hidden bg-white/50 backdrop-blur-sm py-2">
+      <div className="relative overflow-hidden bg-white py-2">
         {/* Gradient overlays */}
         <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-white/50 to-transparent z-10"></div>
         <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-white/50 to-transparent z-10"></div>

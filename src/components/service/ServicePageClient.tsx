@@ -33,8 +33,20 @@ interface Review {
   updatedAt?: string;
 }
 
+// 갤러리 데이터를 위한 인터페이스
+interface GalleryItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface ServicePageClientProps {
   initialReviewsData: Review[];
+  galleryData: GalleryItem[];
 }
 
 const serviceCards = [
@@ -97,7 +109,8 @@ const features = [
   }
 ];
 
-const galleryImages = [
+// 기본 갤러리 이미지 (데이터베이스에 이미지가 없는 경우 fallback으로 사용)
+const fallbackGalleryImages = [
   '/images/gallery/food-1.jpg',
   '/images/gallery/food-2.jpg',
   '/images/gallery/food-3.jpg',
@@ -115,8 +128,9 @@ const priceDetails = [
   '쓰레기 처리 및 현장 정리',
 ];
 
-export default function ServicePageClient({ initialReviewsData }: ServicePageClientProps) {
+export default function ServicePageClient({ initialReviewsData, galleryData }: ServicePageClientProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [activeGalleryItem, setActiveGalleryItem] = useState<string | null>(null);
 
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   
@@ -146,7 +160,7 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
   return (
     <main className="min-h-screen">
       {/* 히어로 섹션 */}
-      <section className="relative h-[400px] md:h-[500px]">
+      <section className="relative h-[300px]">
         <HeroSlider />
         <div className="absolute inset-0 bg-black bg-opacity-40">
           <div className="container mx-auto px-4 h-full flex flex-col justify-center">
@@ -161,7 +175,7 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
 
 
       {/* 핵심 서비스 섹션 */}
-      <section className="py-12 md:py-16 bg-orange-50">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 md:mb-4">
             어떤 행사든 함께합니다
@@ -192,12 +206,14 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature) => (
-              <div key={feature.title} className="text-center px-4">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-orange-50 rounded-full mx-auto mb-4 md:mb-6 flex items-center justify-center">
-                  {feature.icon}
+              <div key={feature.title} className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <div className="flex flex-col items-center">
+                  <div className="bg-orange-50 w-20 h-20 rounded-full flex items-center justify-center mb-4 border-2 border-orange-500">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-gray-800">{feature.title}</h3>
+                  <p className="text-gray-600 text-center">{feature.description}</p>
                 </div>
-                <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{feature.title}</h3>
-                <p className="text-gray-600 text-sm md:text-base">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -205,7 +221,7 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
       </section>
 
       {/* 갤러리 섹션 */}
-      <section className="py-12 md:py-16 bg-gray-50">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 md:mb-4">
             우리의 푸드트럭 성공사례
@@ -213,55 +229,100 @@ export default function ServicePageClient({ initialReviewsData }: ServicePageCli
           <p className="text-gray-600 text-center mb-8 md:mb-12 text-sm md:text-base">
             실제 고객들의 성공 스토리를 확인해보세요
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {galleryImages.map((src, index) => (
-              <div 
-                key={src} 
-                className="relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer"
-                onClick={() => setSelectedImage(src)}
-              >
-                <Image
-                  src={src}
-                  alt={`Gallery image ${index + 1}`}
-                  fill
-                  className="object-cover hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-            ))}
-          </div>
+          
+          {galleryData.length === 0 ? (
+            <div className="text-center py-10 text-gray-500">
+              등록된 갤러리 항목이 없습니다.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+              {galleryData.map((item) => (
+                <div 
+                  key={item.id} 
+                  className="relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer group"
+                  onClick={() => setSelectedImage(item.image)}
+                  onMouseEnter={() => setActiveGalleryItem(item.id)}
+                  onMouseLeave={() => setActiveGalleryItem(null)}
+                >
+                  <Image
+                    src={item.image.startsWith('/') ? item.image : `/${item.image}`}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  {activeGalleryItem === item.id && (
+                    <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-4 transition-opacity duration-300">
+                      <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
+                      <p className="text-white text-sm">{item.description}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+          
           {selectedImage && (
             <GalleryModal 
               isOpen={!!selectedImage}
               imageSrc={selectedImage}
               imageAlt="Gallery image"
-              images={galleryImages}
+              images={galleryData.map(item => item.image.startsWith('/') ? item.image : `/${item.image}`)}
               onClose={() => setSelectedImage(null)} 
             />
           )}
         </div>
       </section>
       
-      {/* 가격 정보 섹션 */}
+      {/* 서비스 이용 방법 섹션 */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 md:mb-4">
-            합리적인 가격, 최고의 만족
+            푸드트럭 서비스 이용 방법
           </h2>
           <p className="text-gray-600 text-center mb-8 md:mb-12 text-sm md:text-base">
-            모든 서비스가 포함된 투명한 가격 정책을 제공합니다
+            간편한 절차로 특별한 이벤트를 더욱 특별하게 만들어 드립니다
           </p>
-          <div className="max-w-2xl mx-auto bg-gray-50 p-6 md:p-8 rounded-lg shadow-md">
-            <ul className="space-y-3 md:space-y-4">
-              {priceDetails.map((detail, index) => (
-                <li key={index} className="flex items-center justify-center">
-                  <svg className="w-5 h-5 text-orange-500 mr-2 md:mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+          
+          {/* 프로세스 카드 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* 첫 번째 단계 카드 */}
+            <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+              <div className="flex flex-col items-center">
+                <div className="bg-orange-50 w-24 h-24 rounded-full flex items-center justify-center mb-4 border-2 border-orange-500">
+                  <svg className="w-12 h-12 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="text-gray-700 text-center">{detail}</span>
-                </li>
-              ))}
-            </ul>
-
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-orange-500">상담 예약</h3>
+                <p className="text-gray-600 text-center">웹사이트나 전화로 간편하게 상담을 신청하세요. 고객님의 이벤트 성격과 요구사항에 맞는 최적의 서비스를 제안해드립니다.</p>
+              </div>
+            </div>
+            
+            {/* 두 번째 단계 카드 */}
+            <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+              <div className="flex flex-col items-center">
+                <div className="bg-orange-50 w-24 h-24 rounded-full flex items-center justify-center mb-4 border-2 border-orange-500">
+                  <svg className="w-12 h-12 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-orange-500">맞춤 메뉴 제안</h3>
+                <p className="text-gray-600 text-center">행사 성격, 예상 인원, 예산에 맞춰 최적의 메뉴를 제안해 드립니다. 시식 서비스도 가능하니 문의해주세요.</p>
+              </div>
+            </div>
+            
+            {/* 세 번째 단계 카드 */}
+            <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+              <div className="flex flex-col items-center">
+                <div className="bg-orange-50 w-24 h-24 rounded-full flex items-center justify-center mb-4 border-2 border-orange-500">
+                  <svg className="w-12 h-12 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-orange-500">현장 서비스 제공</h3>
+                <p className="text-gray-600 text-center">행사 당일, 전문 셰프와 스태프가 약속된 시간에 방문하여 신선하고 맛있는 음식을 제공합니다. 설치부터 철수까지 모두 책임집니다.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

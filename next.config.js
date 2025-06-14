@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ['utfs.io'], // 외부 이미지 도메인 허용
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
+        pathname: '/**',
+      },
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -21,6 +27,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.pstatic.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
       },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
