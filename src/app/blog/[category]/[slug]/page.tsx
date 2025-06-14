@@ -11,7 +11,14 @@ import Image from 'next/image';
 export default function BlogPost() {
   const params = useParams();
   const slug = params?.slug as string;
-  const post = blogPosts.find(p => p.link === `/blog/${params.category}/${slug}`);
+  const category = params?.category as string;
+
+  // null 체크와 존재하지 않는 포스트 처리
+  if (!slug || !category) {
+    notFound();
+  }
+
+  const post = blogPosts.find(p => p.link === `/blog/${category}/${slug}`);
 
   if (!post) {
     notFound();
