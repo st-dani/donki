@@ -1,7 +1,16 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { sendPushNotification } from '@/lib/webPush';
-import { PushSubscription } from '@prisma/client';
+import { sendPushNotification, type PushSubscription } from '@/lib/webPush';
+
+// 데이터베이스 PushSubscription 타입 정의
+type DbPushSubscription = {
+  id: string;
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
 export async function POST(request: Request) {
   try {
@@ -11,8 +20,9 @@ export async function POST(request: Request) {
     const subscriptions = await prisma.pushSubscription.findMany();
 
     // 각 구독자에게 알림 전송
-    const notifications = subscriptions.map((sub: PushSubscription) => {
-      const subscription = {
+    const notifications = subscriptions.map((sub: DbPushSubscription) => {
+      // 데이터베이스 객체를 웹푸시 라이브러리 형식으로 변환
+      const subscription: PushSubscription = {
         endpoint: sub.endpoint,
         keys: {
           p256dh: sub.p256dh,
