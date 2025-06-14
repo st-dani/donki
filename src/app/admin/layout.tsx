@@ -10,7 +10,6 @@ import {
   IconListDetails, 
   IconMenu2, 
   IconUsers, 
-  IconStar, 
   IconShoppingCart, 
   IconBell, 
   IconLogout, 
@@ -182,12 +181,6 @@ export default function AdminLayout({
                 icon={<IconUsers size={20} />} 
                 text="회원 관리" 
                 isActive={isActive('/admin/users')} 
-              />
-              <SidebarItem 
-                href="/admin/reviews" 
-                icon={<IconStar size={20} />} 
-                text="리뷰 관리" 
-                isActive={isActive('/admin/reviews')} 
               />
               <SidebarItem 
                 href="/admin/gallery" 

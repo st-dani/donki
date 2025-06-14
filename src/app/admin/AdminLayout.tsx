@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { 
   IconDashboard, IconListDetails, IconMenu2, 
-  IconUsers, IconStar, IconShoppingCart, IconBell, 
+  IconUsers, IconShoppingCart, IconBell, 
   IconLogout, IconChevronRight, IconChevronDown, IconMenu
 } from '@tabler/icons-react';
 
@@ -115,13 +115,7 @@ export default function AdminLayout({
               <span>회원 관리</span>
             </Link>
             
-            <Link 
-              href="/admin/reviews" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/reviews' || pathname.startsWith('/admin/reviews/') ? 'bg-gray-700' : ''}`}
-            >
-              <IconStar size={20} className="mr-2" />
-              <span>리뷰 관리</span>
-            </Link>
+
             
             <Link 
               href="/admin/orders" 
@@ -197,14 +191,7 @@ export default function AdminLayout({
               <span>회원 관리</span>
             </Link>
             
-            <Link 
-              href="/admin/reviews" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/reviews' || pathname.startsWith('/admin/reviews/') ? 'bg-gray-700' : ''}`}
-              onClick={() => setIsMobileSidebarOpen(false)}
-            >
-              <IconStar size={20} className="mr-2" />
-              <span>리뷰 관리</span>
-            </Link>
+
             
             <Link 
               href="/admin/orders" 
