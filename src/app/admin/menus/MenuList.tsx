@@ -11,18 +11,21 @@ enum MenuCategory {
   BEVERAGE = 'BEVERAGE'
 }
 
-// 서버에서 받아온 메뉴 타입 직접 정의
+// Prisma 스키마에 정의된 Menu 모델과 일치하는 직렬화된 타입 정의
 type SerializedMenu = {
   id: string;
   name: string;
-  nameEn: string | null; // null을 허용하도록 정의
+  nameEn: string | null;
   description: string;
-  price: number;
-  image: string;
-  category: string;
-  isPublished: boolean;
+  category: MenuCategory;
+  categorySlug: string;
   tags: string[];
+  isPopular: boolean;
+  spicyLevel: number | null;
+  isNew: boolean;
+  isVegetarian: boolean;
   allergens: string[];
+  image: string;
   createdAt: string;
   updatedAt: string;
 };

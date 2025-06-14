@@ -1,18 +1,28 @@
 import MenuList from './MenuList';
 import { prisma } from '@/lib/prisma';
 
-// 프리즈마 Menu 타입 직접 정의
+// MenuList.tsx와 동일한 MenuCategory enum 정의 사용
+enum MenuCategory {
+  MAIN = 'MAIN',
+  SIDE = 'SIDE',
+  DESSERT = 'DESSERT',
+  BEVERAGE = 'BEVERAGE'
+}
+
 interface Menu {
   id: string;
   name: string;
   nameEn: string | null;
   description: string;
-  price: number;
-  image: string;
-  category: string;
-  isPublished: boolean;
+  category: MenuCategory;
+  categorySlug: string;
   tags: string[];
+  isPopular: boolean;
+  spicyLevel: number | null;
+  isNew: boolean;
+  isVegetarian: boolean;
   allergens: string[];
+  image: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,7 +34,8 @@ async function getMenus(): Promise<Menu[]> {
         createdAt: 'desc',
       },
     });
-    return menus;
+    // 타입 단언을 사용하여 Prisma에서 반환하는 데이터를 우리가 정의한 Menu 타입으로 변환
+    return menus as unknown as Menu[];
   } catch (error) {
     console.error(error);
     return [];
