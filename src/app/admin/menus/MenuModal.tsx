@@ -1,10 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { MenuCategory } from '@/generated/prisma'; // Prisma enum import
 import { UploadDropzone } from "@uploadthing/react"; // UploadThing component
 import type { OurFileRouter } from "@/app/api/uploadthing/core"; // Import router type
 import Image from 'next/image';
+
+// MenuCategory enum 직접 정의
+enum MenuCategory {
+  MAIN = 'MAIN',
+  SIDE = 'SIDE',
+  DESSERT = 'DESSERT',
+  BEVERAGE = 'BEVERAGE'
+}
 
 // MenuItem 타입 정의 (Prisma 모델과 유사하게)
 export interface MenuItemData {
