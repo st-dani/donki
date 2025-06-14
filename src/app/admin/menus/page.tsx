@@ -1,6 +1,21 @@
 import MenuList from './MenuList';
 import { prisma } from '@/lib/prisma';
-import { Menu } from '@/generated/prisma/client';
+
+// 프리즈마 Menu 타입 직접 정의
+interface Menu {
+  id: string;
+  name: string;
+  nameEn: string | null;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+  isPublished: boolean;
+  tags: string[];
+  allergens: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 async function getMenus(): Promise<Menu[]> {
   try {
