@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String
+  category  String
+  date      DateTime
+  author    String
+  tags      String[]
+  images    String[]
+  hoverText String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum MenuCategory {
+  BUNSIK
+  MEALS
+  DRINKS
+  HOTDOGS_BURGERS
+  SNACKS
+  DESSERTS
+}
+
+model Menu {
+  id           String       @id @default(cuid())
+  name         String
+  nameEn       String?
+  description  String
+  category     MenuCategory
+  categorySlug String // category slug for URLs (e.g. "hotdogs-burgers")
+  tags         String[] // NEW, BEST, MD추천
+  isPopular    Boolean      @default(false)
+  spicyLevel   Int? // 1-3, null if not spicy
+  isNew        Boolean      @default(false)
+  isVegetarian Boolean      @default(false)
+  allergens    String[]     @default([])
+  image        String // Image path from public folder
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+enum EstimateStatus {
+  PENDING // 문의대기
+  CONFIRMED // 확인
+  REPLIED // 답변완료
+  IN_PROGRESS // 행사진행중
+  COMPLETED // 행사완료
+}
+
+model Estimate {
+  id         String         @id @default(cuid())
+  name       String
+  phone      String
+  email      String?
+  service    String
+  date       DateTime
+  location   String
+  attendees  Int
+  details    String?
+  adminNotes String?
+  status     EstimateStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  business  String
+  rating    Int
+  content   String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ServiceGallery {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  image       String // 이미지 경로 저장 
+  order       Int      @default(0) // 표시 순서 (낮은 숫자가 먼저 표시)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
