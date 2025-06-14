@@ -1,11 +1,6 @@
-'use client';
-
 import { Metadata } from 'next';
-import BlogHero from '@/components/blog/BlogHero';
-import BlogCategories from '@/components/blog/BlogCategories';
-import BlogList from '@/components/blog/BlogList';
 import { categories } from '@/types/blog';
-import { useRouter } from 'next/navigation';
+import BlogCategoryPageClient from '@/components/blog/BlogCategoryPage';
 
 export async function generateStaticParams() {
   return categories
@@ -23,17 +18,5 @@ export async function generateMetadata({ params }: { params: { category: string 
 
 export default function BlogCategoryPage({ params }: { params: { category: string } }) {
   const { category } = params;
-  const router = useRouter();
-
-  const handleCategoryChange = (newCategory: string) => {
-    router.push(`/blog/${newCategory}`);
-  };
-
-  return (
-    <main className="min-h-screen bg-white pt-20">
-      <BlogHero />
-      <BlogCategories selectedCategory={category} onCategoryChange={handleCategoryChange} />
-      <BlogList selectedCategory={category} />
-    </main>
-  );
+  return <BlogCategoryPageClient selectedCategory={category} />;
 }
