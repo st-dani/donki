@@ -93,7 +93,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/estimates" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/estimates' || pathname.startsWith('/admin/estimates/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/estimates' || pathname?.startsWith('/admin/estimates/') ? 'bg-gray-700' : ''}`}
             >
               <IconListDetails size={20} className="mr-2" />
               <span>상담 관리</span>
@@ -101,7 +101,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/menu" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu' || pathname.startsWith('/admin/menu/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu' || pathname?.startsWith('/admin/menu/') ? 'bg-gray-700' : ''}`}
             >
               <IconMenu2 size={20} className="mr-2" />
               <span>메뉴 관리</span>
@@ -109,7 +109,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/users" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/users' || pathname.startsWith('/admin/users/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/users' || pathname?.startsWith('/admin/users/') ? 'bg-gray-700' : ''}`}
             >
               <IconUsers size={20} className="mr-2" />
               <span>회원 관리</span>
@@ -119,7 +119,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/orders" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/orders' || pathname.startsWith('/admin/orders/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/orders' || pathname?.startsWith('/admin/orders/') ? 'bg-gray-700' : ''}`}
             >
               <IconShoppingCart size={20} className="mr-2" />
               <span>주문 관리</span>
@@ -166,7 +166,7 @@ export default function AdminLayout({
             {/* 다른 네비게이션 아이템은 데스크탑과 동일... */}
             <Link 
               href="/admin/estimates" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/estimates' || pathname.startsWith('/admin/estimates/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/estimates' || pathname?.startsWith('/admin/estimates/') ? 'bg-gray-700' : ''}`}
               onClick={() => setIsMobileSidebarOpen(false)}
             >
               <IconListDetails size={20} className="mr-2" />
@@ -175,7 +175,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/menu" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu' || pathname.startsWith('/admin/menu/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu' || pathname?.startsWith('/admin/menu/') ? 'bg-gray-700' : ''}`}
               onClick={() => setIsMobileSidebarOpen(false)}
             >
               <IconMenu2 size={20} className="mr-2" />
@@ -184,7 +184,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/users" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/users' || pathname.startsWith('/admin/users/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/users' || pathname?.startsWith('/admin/users/') ? 'bg-gray-700' : ''}`}
               onClick={() => setIsMobileSidebarOpen(false)}
             >
               <IconUsers size={20} className="mr-2" />
@@ -195,7 +195,7 @@ export default function AdminLayout({
             
             <Link 
               href="/admin/orders" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/orders' || pathname.startsWith('/admin/orders/') ? 'bg-gray-700' : ''}`}
+              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/orders' || pathname?.startsWith('/admin/orders/') ? 'bg-gray-700' : ''}`}
               onClick={() => setIsMobileSidebarOpen(false)}
             >
               <IconShoppingCart size={20} className="mr-2" />
