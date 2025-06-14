@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* NProgress styles */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: var(--primary);
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+}
+
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px var(--primary), 0 0 5px var(--primary);
+  opacity: 1.0;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+/* Custom styles */
+:root {
+  --primary: #FF9900; /* 주황색 */
+  --primary-dark: #FF7F00; /* 어두운 주황색 */
+  --primary-light: #FFE5B4; /* 연한 주황색 */
+  --background: #ffffff; /* 흰색 */
+  --foreground: #1a1a1a; /* 검정색 */
+  --foreground-rgb: 26, 26, 26;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+  --accent-gray: #f5f5f5; /* 연한 회색 */
+  --border-gray: #e5e5e5; /* 테두리 회색 */
+  --text-gray: #666666; /* 텍스트 회색 */
+  --hover-scale: 1.02; /* 호버 스케일 효과 */
+  --transition-speed: 0.3s; /* 전환 속도 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+/* 커스텀 색상 클래스 */
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.hover\:bg-primary-dark:hover {
+  background-color: var(--primary-dark);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+/* 드롭다운 메뉴 애니메이션 */
+.group:hover .group-hover\:block {
+  display: block;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 스크롤 애니메이션 */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* 이미지 로딩 애니메이션 */
+.image-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-slide-slower {
+  animation: slide 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+/* 반응형 타이포그래피 */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  h2 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
