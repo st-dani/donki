@@ -17,8 +17,9 @@ export default function ImageUploader({
   const [imageUrl, setImageUrl] = useState(initialImageUrl);
 
   const handleUploadComplete = useCallback(
-    (res: { fileUrl: string }[]) => {
-      const url = res[0].fileUrl;
+    (res: Array<{ url: string; name: string; size: number }>) => {
+      // UploadThing이 반환하는 형식에 맞게 접근
+      const url = res[0].url;
       setImageUrl(url);
       onUploadComplete(url);
     },
@@ -43,10 +44,10 @@ export default function ImageUploader({
           </div>
         </div>
       )}
-      <UploadButton<OurFileRouter>
+      <UploadButton<OurFileRouter, "imageUploader">
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
-          if (res) {
+          if (res && res.length > 0) {
             handleUploadComplete(res);
           }
         }}
