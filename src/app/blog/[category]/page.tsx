@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { categories } from '@/types/blog';
-import BlogCategoryPageClient from '@/components/blog/BlogCategoryPage';
 
 export async function generateStaticParams() {
   return categories
@@ -18,5 +17,15 @@ export async function generateMetadata({ params }: { params: { category: string 
 
 export default function BlogCategoryPage({ params }: { params: { category: string } }) {
   const { category } = params;
-  return <BlogCategoryPageClient selectedCategory={category} />;
+  const categoryData = categories.find(cat => cat.id === category) || { name: category, description: '' };
+  
+  return (
+    <div className="container mx-auto py-12 px-4">
+      <h1 className="text-4xl font-bold mb-8">{categoryData.name} 블로그</h1>
+      <p className="text-lg mb-8">{categoryData.description}</p>
+      <div className="p-8 bg-gray-100 rounded-lg text-center">
+        <p className="text-xl">블로그 카테고리 페이지가 곧 준비될 예정입니다.</p>
+      </div>
+    </div>
+  );
 }
