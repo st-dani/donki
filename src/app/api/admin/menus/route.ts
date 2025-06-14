@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
+// 로컬 파일 저장 관련 임포트 제거
 
 // 모든 메뉴 조회 (GET)
 export async function GET() {
@@ -34,48 +33,23 @@ export async function POST(request: Request) {
     let imagePath: string | undefined;
     let imageUrl: string | undefined;
 
-    // JSON 데이터 처리
-    if (contentType.includes('application/json')) {
-      const json = await request.json();
-      name = json.name;
-      nameEn = json.nameEn || ''; // 영문명 추출
-      description = json.description;
-      category = json.category;
-      tags = json.tags || [];
-      allergens = json.allergens || [];
-      imageUrl = json.imageUrl;
-    } 
-    // FormData 처리
-    else {
-      const data = await request.formData();
-      const file: File | null = data.get('image') as unknown as File;
-      nameEn = data.get('nameEn') as string || ''; // FormData에서 영문명 추출
-
-      if (file && typeof file.arrayBuffer === 'function') {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        const filename = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
-        const path = join(process.cwd(), 'public/images/menu', filename);
-        
-        await writeFile(path, buffer);
-        imagePath = `/images/menu/${filename}`;
-      }
-
-      name = data.get('name') as string;
-      description = data.get('description') as string;
-      category = data.get('category') as string;
-      tags = data.getAll('tags') as string[];
-      allergens = data.getAll('allergens') as string[];
-    }
+    // JSON 데이터 처리 (이제 UploadThing으로 이미지 URL을 받아와서 사용)
+    const json = await request.json();
+    name = json.name;
+    nameEn = json.nameEn || ''; // 영문명 추출
+    description = json.description;
+    category = json.category;
+    tags = json.tags || [];
+    allergens = json.allergens || [];
+    imageUrl = json.imageUrl; // UploadThing에서 업로드된 이미지 URL
 
     if (!name || !description || !category) {
       return NextResponse.json({ error: '필수 필드가 누락되었습니다.' }, { status: 400 });
     }
 
-    // imageUrl을 우선 사용하고, 없는 경우에는 기본 이미지 경로 사용
+    // UploadThing에서 제공하는 이미지 URL 사용, 없으면 기본 이미지 URL 사용
     // Prisma의 Menu 모델은 image가 nullable이 아닌 String 유형임
-    const imageToSave = imageUrl || imagePath || '/images/menu/default-menu.jpg';
+    const imageToSave = imageUrl || '/images/menu/default-menu.jpg';
     
     // CategorySlug 자동 생성 
     const getCategorySlug = (category: string): string => {

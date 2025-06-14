@@ -274,12 +274,13 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onSave, initialD
               </div>
             ) : (
               <div className="mt-2 flex justify-center items-center w-full h-32 px-6 pt-3 pb-3 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-400 transition-colors duration-200 ease-in-out bg-gray-50 hover:bg-indigo-50">
-                <UploadDropzone<OurFileRouter, "imageUploader">
-                  endpoint="imageUploader" // 실제 사용하시는 UploadThing 엔드포인트로 정확히 설정해주세요.
+                <UploadDropzone<OurFileRouter, "menuImageUploader">
+                  endpoint="menuImageUploader" // 메뉴 이미지 전용 업로더 사용
                   onClientUploadComplete={(res) => {
                     if (res && res.length > 0 && res[0]?.url) {
+                      // UploadThing 서버에 업로드된 이미지 URL 저장
                       setMenu((prev) => ({ ...prev, imageUrl: res[0].url }));
-                      // alert("이미지 업로드 완료!"); // UX 개선을 위해 alert 대신 UI 피드백으로 변경 고려
+                      console.log("메뉴 이미지가 UploadThing에 성공적으로 업로드되었습니다:", res[0].url);
                     } else {
                       console.error("Upload response error or missing URL:", res);
                       alert("이미지 URL을 받지 못했습니다. 업로드 응답을 확인해주세요.");
@@ -290,8 +291,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, onSave, initialD
                     alert(`이미지 업로드 실패: ${error.message}`);
                   }}
                   config={{
-                      mode: "auto", // 또는 'manual' 등 필요에 따라 설정
-                      // ...기타 UploadThing 설정
+                      mode: "auto",
                   }}
                   className="w-full ut-label:text-indigo-600 ut-allowed-content:text-gray-500 ut-button:bg-indigo-600 ut-button:ut-readying:bg-indigo-500 ut-upload-icon:text-indigo-400 hover:ut-label:text-indigo-700"
                 />
