@@ -3,10 +3,26 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
-import { ServiceGallery } from '@/generated/prisma';
 import GalleryFormModal from './GalleryFormModal';
+import { format } from 'date-fns';
 
-type SerializedGallery = Omit<ServiceGallery, 'createdAt' | 'updatedAt'> & {
+type GalleryItem = {
+  id?: string;
+  title: string;
+  description: string;
+  image: string;
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+// 서버에서 받아온 갤러리 항목 타입
+type SerializedGallery = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  order: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -18,7 +34,7 @@ interface GalleryClientProps {
 export default function GalleryClient({ initialGallery }: GalleryClientProps) {
   const [gallery, setGallery] = useState<SerializedGallery[]>(initialGallery);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState<SerializedGallery | null>(null);
+  const [currentItem, setCurrentItem] = useState<GalleryItem | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // 모달 열기 - 새 항목 생성
@@ -59,7 +75,7 @@ export default function GalleryClient({ initialGallery }: GalleryClientProps) {
   };
 
   // 항목 저장 (추가 또는 수정)
-  const handleSave = async (item: SerializedGallery, file?: File) => {
+  const handleSave = async (item: GalleryItem, file?: File) => {
     setIsLoading(true);
     const isEdit = Boolean(item.id);
     
