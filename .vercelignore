@@ -1,11 +1,9 @@
-# 대용량 미디어 파일 무시
+# 대용량 미디어 파일 무시 (필수 이미지 제외)
 public/images/menu/
 public/videos/
-*.mp4
-*.mp3
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.webp
-*.svg
+
+# 작은 크기의 필수 이미지는 유지되어야 함
+# public/images/gallery/
+# public/images/hero/
+# public/images/reviews/
+# public/images/services/
