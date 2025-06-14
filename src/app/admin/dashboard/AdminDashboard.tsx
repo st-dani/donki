@@ -2,7 +2,8 @@
 
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { EstimateStatus } from '@/generated/prisma';
+// 상태 타입을 직접 정의합니다
+type EstimateStatus = 'PENDING' | 'CONFIRMED' | 'REPLIED' | 'IN_PROGRESS' | 'COMPLETED';
 import {
   IconListDetails, IconUsers, IconShoppingCart, IconStar,
   IconMenu2, IconTrendingUp, IconBuildingStore, IconCalendarEvent
@@ -66,7 +67,7 @@ export default function AdminDashboard({ data }: AdminDashboardProps) {
       title: `${estimate.name} 님의 견적 요청`,
       description: `${estimate.service} - ${estimate.location} (${estimate.attendees}명)`,
       timestamp: new Date(estimate.createdAt),
-      status: statusToKorean[estimate.status],
+      status: statusToKorean[estimate.status as keyof typeof statusToKorean] || '알 수 없음',
       statusColor: estimate.status === 'PENDING' ? 'yellow' : 
                  estimate.status === 'CONFIRMED' ? 'green' : 
                  estimate.status === 'REPLIED' ? 'blue' : 
