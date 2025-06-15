@@ -59,7 +59,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
   const pathname = usePathname();
   
   // 화면 크기 변경시 모바일 사이드바 닫기
@@ -100,36 +101,26 @@ export default function AdminLayout({
               <span>상담 관리</span>
             </Link>
             
-            <div className="mb-2">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`w-full flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 group ${pathname?.startsWith('/admin/menu') || pathname?.startsWith('/admin/menus') ? 'bg-gray-700' : ''}`}
-              >
+            <div className="mb-5 border-b border-gray-700 pb-2">
+              <div className="flex items-center p-2 text-yellow-400 font-medium">
                 <IconMenu2 size={20} className="mr-2" />
-                <span className="flex-1 text-left">메뉴 관리</span>
-                {isMenuOpen ? 
-                  <IconChevronDown size={16} className="text-gray-400" /> : 
-                  <IconChevronRight size={16} className="text-gray-400" />
-                }
-              </button>
-              {isMenuOpen && (
-                <div className="pl-8 mt-1 space-y-1">
-                  <Link
-                    href="/admin/menus"
-                    className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menus' ? 'bg-gray-700' : ''}`}
-                    onClick={() => setIsMobileSidebarOpen(false)}
-                  >
-                    <span className="text-sm">메뉴 목록</span>
-                  </Link>
-                  <Link
-                    href="/admin/menu-images"
-                    className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu-images' ? 'bg-gray-700' : ''}`}
-                    onClick={() => setIsMobileSidebarOpen(false)}
-                  >
-                    <span className="text-sm">이미지 일괄 업로드</span>
-                  </Link>
-                </div>
-              )}
+                <span className="flex-1">메뉴 관리</span>
+              </div>
+              
+              <div className="pl-4 mt-1 space-y-2">
+                <Link
+                  href="/admin/menus"
+                  className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menus' || pathname?.startsWith('/admin/menus/') ? 'bg-gray-700' : ''}`}
+                >
+                  <span>메뉴 목록</span>
+                </Link>
+                <Link
+                  href="/admin/menu-images"
+                  className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu-images' ? 'bg-gray-700' : ''}`}
+                >
+                  <span>이미지 일괄 업로드</span>
+                </Link>
+              </div>
             </div>
             
             <Link 
@@ -198,14 +189,29 @@ export default function AdminLayout({
               <span>상담 관리</span>
             </Link>
             
-            <Link 
-              href="/admin/menu" 
-              className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu' || pathname?.startsWith('/admin/menu/') ? 'bg-gray-700' : ''}`}
-              onClick={() => setIsMobileSidebarOpen(false)}
-            >
-              <IconMenu2 size={20} className="mr-2" />
-              <span>메뉴 관리</span>
-            </Link>
+            <div className="mb-5 border-b border-gray-700 pb-2">
+              <div className="flex items-center p-2 text-yellow-400 font-medium">
+                <IconMenu2 size={20} className="mr-2" />
+                <span className="flex-1">메뉴 관리</span>
+              </div>
+              
+              <div className="pl-4 mt-1 space-y-2">
+                <Link
+                  href="/admin/menus"
+                  className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menus' || pathname?.startsWith('/admin/menus/') ? 'bg-gray-700' : ''}`}
+                  onClick={() => setIsMobileSidebarOpen(false)}
+                >
+                  <span>메뉴 목록</span>
+                </Link>
+                <Link
+                  href="/admin/menu-images"
+                  className={`flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-700 ${pathname === '/admin/menu-images' ? 'bg-gray-700' : ''}`}
+                  onClick={() => setIsMobileSidebarOpen(false)}
+                >
+                  <span>이미지 일괄 업로드</span>
+                </Link>
+              </div>
+            </div>
             
             <Link 
               href="/admin/users" 
