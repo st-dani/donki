@@ -1,0 +1,67 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/
+
+# testing
+/coverage
+
+# build outputs and cache
+.next/cache/
+/.next/cache/
+out/
+
+# misc
+.DS_Store
+*.pem
+*.log
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*
+.env*.local
+
+# git and version control
+.git/
+/.gitignore
+/.vercelignore
+vercel.json
+
+# content, data and images
+/naver_blog_images/
+/docs/
+*.json
+!package.json
+!tsconfig.json
+!next.config.js
+
+# scripts and tools
+/scripts/
+/prisma/migrations/
+*.py
+*.ps1
+
+# config and docs
+*.md
+/requirements.txt
+
+# Exclude all but essential project files
+/*
+!/.next/
+!/pages/
+!/public/
+!/prisma/schema.prisma
+!/src/
+!/package.json
+!/package-lock.json
+!/netlify.toml
+!/tsconfig.json
+!/next.config.js
+!/postcss.config.js
+!/tailwind.config.js
